@@ -3,7 +3,7 @@ import numpy as np
 
 class Memoria:
     def __init__(self):
-        self.registros = np.arrange(512)
+        self.registros = []
         self.siguientePosicion = 0
 
     def read(self, posicion):
