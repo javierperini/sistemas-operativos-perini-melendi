@@ -1,6 +1,7 @@
 import unittest
 from Instruccion import *
 
+
 class Output:
     def __init__(self):
         self.instrucciones = []
@@ -18,7 +19,6 @@ class TestsOutput(unittest.TestCase):
 
     def setUp(self):
         self.output = Output()
-
 
     def test_agregarUnElemento(self):
         self.output.agregarInstruccion("soy una instruccion")

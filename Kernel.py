@@ -1,4 +1,3 @@
-from Programa import *
 from AdministradorDeMemoria import *
 from PCB import *
 from Schelduler import *
@@ -29,8 +28,8 @@ class Kernel:
 
     def ejecutar(self, nombre_programa):
         self.creaProceso(nombre_programa)
-        self.schelduler.ejcutarProceso()
-
+        self.schelduler.planifica()
+        ## muere kernel
 
 
 
