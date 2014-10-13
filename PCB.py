@@ -2,12 +2,13 @@ from Estado import *
 
 
 class PCB:
-    def __init__(self, ini, fin, pc, pid):
+    def __init__(self, ini, fin, pc, pid, priority):
         self.posicion_ini = ini
         self.posicion_fin = fin
         self.pc = pc
         self.state = New
         self.pid = pid
+        self._priority = priority
 
     def posicionInicial(self):
         return self.posicion_ini
@@ -26,3 +27,10 @@ class PCB:
 
     def setState(self, stateNew):
         self.state= stateNew
+
+    def get_priority(self):
+        return self._priority
+
+    def __cmp__(self, otroPCB):
+    #Para compararme a mi con otro pcb, por prioridad
+        return cmp(self._priority, otroPCB.get_Priority())
