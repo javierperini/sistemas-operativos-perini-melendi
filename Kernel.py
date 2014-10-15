@@ -1,6 +1,7 @@
 from AdministradorDeMemoria import *
 from PCB import *
 from Schelduler import *
+import Queue
 
 
 class Kernel:
@@ -8,9 +9,9 @@ class Kernel:
         self.disco = disco
         self.memoria = memoria
         self.admin_memoria = AdministradorDeMemoria(self.memoria)
-        self.colaDeReady = []
+        self.colaDeReady = Queue()
         self.pid = 0
-        self.schelduler = Schelduler(self)
+        self.schelduler = Schelduler(self.colaDeReady)
 
     def pid(self):
         return self.pid
