@@ -1,4 +1,4 @@
-from Programa import *
+import Programa
 from Memoria import *
 import unittest
 

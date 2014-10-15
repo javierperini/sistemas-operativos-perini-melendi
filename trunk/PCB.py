@@ -1,4 +1,4 @@
-from Estado import *
+import Estado
 
 
 class PCB:
@@ -6,7 +6,7 @@ class PCB:
         self.posicion_ini = ini
         self.posicion_fin = fin
         self.pc = pc
-        self.state = New
+        self.state = Estado(1)
         self.pid = pid
         self._priority = priority
 
@@ -26,7 +26,7 @@ class PCB:
         return self.pid
 
     def setState(self, stateNew):
-        self.state= stateNew
+        self.state = stateNew
 
     def get_priority(self):
         return self._priority

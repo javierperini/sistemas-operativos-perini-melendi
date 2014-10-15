@@ -1,11 +1,15 @@
 import Queue
 from PCB import *
+from Cpu import *
+from Kernel import *
 import unittest
 
 
 class Scheduler:
-    def __init__(self):
+    def __init__(self, cola_de_ready):
         self._policy = None
+        self._cpu = Cpu()
+        self._ready_queue = cola_de_ready
 
     def set_as_fifo(self):
         self._policy = FifoScheduler()
@@ -17,7 +21,7 @@ class Scheduler:
         self._policy = RoundRobinScheduler()
 
     def get_pcb(self):
-        return self._policy.get_pcb()
+        self._cpu.run(self._policy.get_pcb())
 
     def add_pcb(self, pcb):
         self._policy.add_pcb(pcb)
@@ -46,11 +50,11 @@ class PriorityScheduler():
 
 
 class RoundRobinScheduler():
-        def __init__(self, quantum):
-            self.readyQueue = Queue()
+    def __init__(self, quantum):
+        self.readyQueue = Queue()
 
 
-#--------------------------------------------------------#
+# --------------------------------------------------------#
 class TestsAdmin(unittest.TestCase):
     def setUp(self):
         self.pcb1 = PCB(100, 200, 40, 55, 5)
@@ -79,8 +83,6 @@ class TestsAdmin(unittest.TestCase):
         self.priority_policy.add_pcb(self.pcb5)
 
         self.assertEquals(self._scheduler.get_pcb(), 4)
-
-
 
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestsAdmin)
