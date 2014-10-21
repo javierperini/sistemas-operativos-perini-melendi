@@ -9,9 +9,9 @@ class Kernel:
         self.disco = disco
         self.memoria = memoria
         self.admin_memoria = AdministradorDeMemoria(self.memoria)
-        self.colaDeReady = Queue()
+        self.colaDeReady = []
         self.pid = 0
-        self.schelduler = Schelduler(self.colaDeReady)
+        self.schelduler = Schelduler()
 
     def pid(self):
         return self.pid
@@ -29,7 +29,7 @@ class Kernel:
 
     def ejecutar(self, nombre_programa):
         self.creaProceso(nombre_programa)
-        self.schelduler.planifica()
+        self.schelduler.get_pcb(self.colaDeReady) #el scheduler mismo le manda run al pcb obtenido!
         ## muere kernel
 
 

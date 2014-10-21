@@ -12,13 +12,13 @@ class Scheduler:
         self._ready_queue = cola_de_ready
 
     def set_as_fifo(self):
-        self._policy = FifoScheduler()
+        self._policy = FifoScheduler(self._ready_queue)
 
     def set_as_priority(self):
-        self._policy = PriorityScheduler()
+        self._policy = PriorityScheduler(self._ready_queue)
 
     def set_as_round_robin(self):
-        self._policy = RoundRobinScheduler()
+        self._policy = RoundRobinScheduler(self._ready_queue)
 
     def get_pcb(self):
         self._cpu.run(self._policy.get_pcb())
@@ -28,30 +28,58 @@ class Scheduler:
 
 
 class FifoScheduler:
-    def __init__(self):
-        self._readyQueue = Queue()
+    def __init__(self, ready_queue):
+        self._readyQueue = ready_queue
 
     def get_pcb(self):
-        return self._readyQueue.get()
+        return self._readyQueue.pop(0)
 
     def add_pcb(self, pcb):
-        self._readyQueue.put(pcb)
+        self._readyQueue.append(pcb)
 
 
 class PriorityScheduler():
-    def __init__(self):
-        self._readyQueue = Queue.PriorityQueue()
+    def __init__(self, ready_queue):
+        self._readyQueue = ready_queue
 
     def get_pcb(self):
-        return self._readyQueue.get()
+        return self._readyQueue.pop()
 
     def add_pcb(self, pcb):
-        self._readyQueue.put(pcb)
+        #el que tiene menor numero de priority es el de mas prioridad ????
+        index = 0
+        not_end = True
+        if not_end & (pcb.get_priority() < self._readyQueue.pop(index)):
+            self._readyQueue.insert(pcb)
+            not_end = False
+        else:
+            index = index + 1
 
 
 class RoundRobinScheduler():
-    def __init__(self, quantum):
-        self.readyQueue = Queue()
+    def __init__(self, quantum, ready_queue):
+        self.readyQueue = ready_queue
+        self.quantum = quantum
+
+    def get_pcb(self):
+        for i in range(len(list) -1):
+            mid = len(list) / 2
+            l1 = list[:mid]
+            l2 = list[mid:]
+            l2.reverse()
+
+            #Cambiar de lados despues de cada ronda
+            if i % 2 == 1:
+                s = s + [zip(l1, l2)]
+            else:
+                s = s + [zip(l2, l1)]
+
+            list.insert(1, list.pop())
+
+        return s
+
+    def add_pcb(self, pcb):
+        pass
 
 
 # --------------------------------------------------------#
