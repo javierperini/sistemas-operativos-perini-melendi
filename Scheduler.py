@@ -46,7 +46,7 @@ class PriorityScheduler():
         return self._readyQueue.pop()
 
     def add_pcb(self, pcb):
-        #el que tiene menor numero de priority es el de mas prioridad ????
+        # el que tiene menor numero de priority es el de mas prioridad ????
         index = 0
         not_end = True
         if not_end & (pcb.get_priority() < self._readyQueue.pop(index)):
@@ -69,6 +69,7 @@ class RoundRobinScheduler():
 
     def get_quantum(self):
         return self.quantum
+
 
 # --------------------------------------------------------#
 class TestsAdmin(unittest.TestCase):
