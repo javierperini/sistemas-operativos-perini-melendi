@@ -62,25 +62,13 @@ class RoundRobinScheduler():
         self.quantum = quantum
 
     def get_pcb(self):
-        for i in range(len(list) -1):
-            mid = len(list) / 2
-            l1 = list[:mid]
-            l2 = list[mid:]
-            l2.reverse()
-
-            #Cambiar de lados despues de cada ronda
-            if i % 2 == 1:
-                s = s + [zip(l1, l2)]
-            else:
-                s = s + [zip(l2, l1)]
-
-            list.insert(1, list.pop())
-
-        return s
+        return self._readyQueue.pop(0)
 
     def add_pcb(self, pcb):
-        pass
+        self._readyQueue.append(pcb)
 
+    def get_quantum(self):
+        return self.quantum
 
 # --------------------------------------------------------#
 class TestsAdmin(unittest.TestCase):
