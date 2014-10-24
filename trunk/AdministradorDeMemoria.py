@@ -4,19 +4,25 @@ import unittest
 
 
 class AdministradorDeMemoria:
-    def __init__(self, memoria):
+    def __init__(self, memoria, strategy):
         self.memoria = memoria
+        self.strategy = strategy
 
     def almacenar(self, programa):
-        if self.memoria.hayEspacioPara(programa.size()):
-                self.safeAlmacenar(programa)
+        if self.strategy.hayEspacioPara(programa.size()):
+                self.strategy.saveAlmacenar(programa)
 
-    def safeAlmacenar(self, programa):
-        for instr in programa.instrucciones():
-            self.memoria.write(self.siquientePosicion(), instr)
+    def saveAlmacenar(self, programa):
+        self.strategy.savePrograma(programa)
 
-    def siguientePosicionAdm(self):
-        return self.memoria.siguientePosicion()
+    def nextPost(self):
+        return self.strategy.siguientePosicion()
+
+    def readMemory(self, programa):
+        return self.strategy.getNextInstruction(programa)
+
+    def deleteMemory(self, programa):
+        self.strategy.readMemory(programa)
 
 
 class TestsAdmin(unittest.TestCase):
