@@ -1,4 +1,6 @@
-__author__ = 'javier'
+import Block
+import BlockTable
+__author__ = 'javier matias camila'
 
 
 class MemoryOrganize:
@@ -10,7 +12,7 @@ class MemoryOrganize:
     def hayEspacioPara(self, tamanio):
         pass
 
-    def savePrograma(self, programa):
+    def saveProgram(self, program):
         pass
 
     def nextPosition(self):
@@ -29,12 +31,14 @@ class AsignacionContinua(MemoryOrganize):
         super.__init__(memory)
 
     def hayEspacioPara(self, tamanio):
-        self.memory.hayEspacioParaGuardar(tamanio)
+        self.memory.compactar()
+        return self.memory.hayEspacioParaGuardar(tamanio)
 
-    def savePrograma(self, programa):
-        bloque = Block(programa.size()).setPrograma(programa)
-        self.blockTable.put(programa.nombre, [bloque])
-        for instruction in programa.getInstrucciones():
+
+    def saveProgram(self, program):
+        bloque = Block(program.size()).setPrograma(program)
+        self.blockTable.put(program.nombre, [bloque])
+        for instruction in program.getInstrucciones():
             self.memory.write(self.nextPosition(), instruction)
 
     def nextPosition(self):
@@ -42,8 +46,6 @@ class AsignacionContinua(MemoryOrganize):
 
     def deleteMemory(self, indice):
         self.memory.delete(indice)
-        self.compactacion(indice)
- #FALTA HACER COMPACTACION
 
 
 class Paginacion(MemoryOrganize):
@@ -51,14 +53,14 @@ class Paginacion(MemoryOrganize):
     def __init__(self, memory):
         super.__init__(memory)
 
-    def savePrograma(self, programa):
-        bloque = Block(4)
+    def saveProgram(self, program):
+        block = Block(4)
         contador= 0
-        for instruction in programa.getInstrucciones():
+        for instruction in program.getInstrucciones():
             if(block.getTamanio >= contador):
                 self.memory.write(self.nextPosition(), instruction)
                 contador += 1
             else:
-               self.blockTable.put(bloque)
+               self.blockTable.put(block)
 
-        self.blockTable.put(programa, bloque)
+        self.blockTable.put(program, block)
