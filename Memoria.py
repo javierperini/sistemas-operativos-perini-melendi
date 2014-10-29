@@ -1,3 +1,4 @@
+
 import unittest
 
 
@@ -5,6 +6,8 @@ class Memoria:
     def __init__(self):
         self.registros = []
         self.siguientePosicion = 0
+        self.tamaño = 512
+        self.celdasLibres = 512
 
     def read(self, posicion):
         return self.registros[posicion]
@@ -12,12 +15,21 @@ class Memoria:
     def write(self, posicion, instruccion):
         self.registros.insert(posicion, instruccion)
         self.siguientePosicion += 1
+        self.celdasLibres -= 1
 
     def siquientePosicion(self):
         return self.siguientePosicion
 
     def hayEspacioParaGuardar(self, tamanhoDelPrograma):
-        return (512 - self.siguientePosicion) > tamanhoDelPrograma
+        return self.celdasLibres >= tamanhoDelPrograma
+
+    def compactar(self):
+        pass
+        #agarrar todas las instrucciones y ponerlas juntas
+        #marcar las celdas para saber si están ocupadas o no.
+
+    def delete(self, indice):
+        self.registros.remove[indice]
 
 
 class TestsMemoria(unittest.TestCase):
