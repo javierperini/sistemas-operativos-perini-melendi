@@ -1,4 +1,5 @@
 import Programa
+import Instruccion
 from Memoria import *
 import unittest
 
@@ -22,7 +23,7 @@ class AdministradorDeMemoria:
         return self.strategy.getNextInstruction(programa)
 
     def deleteMemory(self, programa):
-        self.strategy.readMemory(programa)
+        self.strategy.deleteMemory(programa)
 
 
 class TestsAdmin(unittest.TestCase):
