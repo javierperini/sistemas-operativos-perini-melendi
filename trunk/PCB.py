@@ -10,22 +10,22 @@ class PCB:
         self.pid = pid
         self._priority = priority
 
-    def posicionInicial(self):
+    def initial_position(self):
         return self.posicion_ini
 
-    def posicionFinal(self):
+    def final_position(self):
         return self.posicion_fin
 
-    def getPc(self):
+    def get_pc(self):
         return self.pc
 
-    def getState(self):
+    def get_state(self):
         return self.state
 
-    def getPid(self):
+    def get_pid(self):
         return self.pid
 
-    def setState(self, stateNew):
+    def set_state(self, stateNew):
         self.state = stateNew
 
     def get_priority(self):
