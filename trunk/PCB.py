@@ -1,12 +1,12 @@
-import Estado
+import ProcessState
 
 
 class PCB:
-    def __init__(self, ini, fin, pc, pid, priority):
-        self.posicion_ini = ini
-        self.posicion_fin = fin
+    def __init__(self, init, fin, pc, pid, priority):
+        self.init_position = init
+        self.final_position = fin
         self.pc = pc
-        self.state = Estado(1)
+        self.state = ProcessState(1)
         self.pid = pid
         self._priority = priority
 
