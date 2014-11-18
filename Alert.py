@@ -1,5 +1,5 @@
 from PCBTable import PCBTable
-from Estado import Estado
+from ProcessState import Estado
 
 __author__ = 'memonono'
 
