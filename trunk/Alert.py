@@ -1,10 +1,8 @@
 from PCBTable import PCBTable
-from ProcessState import Estado
+from ProcessState import ProcessState
 
 __author__ = 'memonono'
 
-
-##En el alert_for(pcb) vamos a definir cada recetita que tenemos
 
 class InstructionAlert:
 
@@ -17,7 +15,7 @@ class InstructionAlert:
         def alert_for(self , pcb):
             new_pcb = self.scheduler.nextPCB()
             self.cpu.pcb = new_pcb
-            new_pcb.state = Estado.ready
+            new_pcb.state = ProcessState.ready
             self.cpu.resetRoundRobin(pcb)
 
 
@@ -31,7 +29,7 @@ class KillAlert(InstructionAlert):
 
         def alert_for(self, pcb):
             super
-            pcb.state = Estado.end
+            pcb.state = ProcessState.end
             self.cpu.memory.free(pcb)
             PCBTable.remove(pcb)
 
@@ -43,7 +41,7 @@ class TimeoutAlert(InstructionAlert):
 
         def alert_for(self, pcb):
             super
-            pcb.state = Estado.ready
+            pcb.state = ProcessState.ready
 
 
 class IOAlert(InstructionAlert):
@@ -52,13 +50,16 @@ class IOAlert(InstructionAlert):
         return pcb.next_instruction().is_io_instruction()
 
     def alert_for(self, pcb):
-        return NotImplemented
+        pcb.state = ProcessState.waiting
+        #Podriamos hacer algo en el medio, como procesar la IOInstruction
+        pcb.state = ProcessState.ready
 
 
 class NewAlert(InstructionAlert):
 
     def condition_of_applicability(self, pcb):
-        raise NotImplemented
+        pcb.state.equals(ProcessState.new)
 
     def alert_for(self, pcb):
-        return NotImplemented
+        PCBTable.add(pcb)
+        pcb.state = ProcessState.ready
