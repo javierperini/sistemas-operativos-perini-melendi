@@ -1,11 +1,11 @@
 from enum import Enum
 
 
-class Estado(Enum):
+class ProcessState(Enum):
     new = 1
     ready = 2
     running = 3
-    waitng = 4
+    waiting = 4
     terminated = 5
 
 
