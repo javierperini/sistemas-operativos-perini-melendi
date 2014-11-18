@@ -9,5 +9,5 @@ class Clock:
         self.interval = interval
 
     def tick(self):
-        threading.Thread.start(self.interval)
+        threading.Timer(self.interval)
 
