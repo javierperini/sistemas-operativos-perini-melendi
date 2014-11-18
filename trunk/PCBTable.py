@@ -10,4 +10,4 @@ class PCBTable:
         self.pcbs.remove(pcb)
 
     def add(self, pcb):
-        self.pcbs.add(pcb)
+        self.pcbs.append(pcb)
