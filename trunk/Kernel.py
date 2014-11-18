@@ -12,7 +12,7 @@ class Kernel:
         self.colaDeReady = []
         self.pid = 0
         self.schelduler = Scheduler()
-
+'''HACER UN KERNEL STARTUP!!!!!!!!!!!!!1'''
     def pid(self):
         return self.pid
 
