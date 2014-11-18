@@ -9,12 +9,11 @@ class AdministradorDeMemoria:
         self.memoria = memoria
         self.strategy = strategy
 
-    def almacenar(self, programa):
-        if self.strategy.hayEspacioPara(programa.size()):
-                self.strategy.saveAlmacenar(programa)
+    def almacenar(self, pcb, programa):
+        self.strategy.saveAlmacenar(pcb, programa)
 
-    def saveAlmacenar(self, programa):
-        self.strategy.savePrograma(programa)
+    def hayEspacioPara(self, tamanio):
+        self.strategy.hayEspacioPara(tamanio)
 
     def nextPost(self):
         return self.strategy.siguientePosicion()
