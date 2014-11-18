@@ -5,8 +5,8 @@ __author__ = 'memonono'
 
 class Alerter:
 
-    def __init__(self):
-        self.alerts = [KillAlert(), TimeoutAlert(), IOAlert(), NewAlert()]
+    def __init__(self, cpu):
+        self.alerts = [KillAlert(cpu), TimeoutAlert(cpu), IOAlert(cpu), NewAlert(cpu)]
 
     def find(self, pcb):
         for alert in self.alerts:
