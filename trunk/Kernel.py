@@ -1,6 +1,9 @@
 from AdministradorDeMemoria import *
 from PCB import *
+from Process import *
 from Scheduler import *
+from PCBTable import *
+
 import Queue
 
 
@@ -12,21 +15,21 @@ class Kernel:
         self.colaDeReady = []
         self.pid = 0
         self.schelduler = Scheduler()
-'''HACER UN KERNEL STARTUP!!!!!!!!!!!!!1'''
+        self.pcb_table = PCBTable()
+        #HACER UN KERNEL STARTUP!!!!!!!!!!!!!
+
     def pid(self):
         return self.pid
 
-    def creaProceso(self, nombre_programa):
+    def crear_pcb(self, nombre_programa):
         posInicial = self.admin_memoria.siguientePosicion()
         programa = self.getPrograma(nombre_programa)   ##CAMBIO TODO
         posFinal = (posInicial+programa.size())   ##CAMBIO
-        self.admin_memoria.almacenar(programa)
         pcb = PCB(posInicial, posFinal, 0, self.pid())
-        self.colaDeReady.append(pcb)
         self.pid += 1
         return pcb
 
-    def getPrograma(self ,nombrePrograma):
+    def getPrograma(self, nombrePrograma):
         return self.disco.getProgram(nombrePrograma)
 
     def getColaDeReady(self):
@@ -35,12 +38,18 @@ class Kernel:
     def ejecutar(self, nombre_programa):
         programa = self.getPrograma(nombre_programa)
         if self.admin_memoria.hayEspacioPara(programa.size):
-            pcb = self.creaProceso(nombre_programa)
-            self.admin_memoria.almacenar(pcb, programa)
-            self.schelduler.get_pcb(self.colaDeReady) #el scheduler mismo le manda run al pcb obtenido!
-            ## muere kernel
+            pcb = self.crear_pcb(nombre_programa)
+            proceso = self.crear_proceso(programa, pcb)
+            self.pcb_table.add(pcb)
+            self.admin_memoria.almacenar(programa)
+            self.colaDeReady.add(proceso)
+            self.schelduler.get_pcb(self.colaDeReady)
+
         else:
-            self.imprimirError("NO HAY LUGAR")
+            self.imprimirError("NO HAY LUGAR ss")
+
+    def crear_proceso(self, programa, pcb):
+        return Process(programa, pcb)
 
     def imprimirError(self, mensaje):
         pass
