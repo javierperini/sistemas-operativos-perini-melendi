@@ -17,16 +17,13 @@ class InstructionAlert:
         pass
 
     def alert_cpu(self, pcb):
-        new_pcb = self.scheduler.nextPCB()
+        new_pcb = self.scheduler.nextPCB
         self.cpu.pcb = new_pcb
         new_pcb.state = ProcessState.ready
         self.cpu.resetRoundRobin(pcb)
 
 
 class KillAlert(InstructionAlert):
-
-    def __init__(self, cpu, scheduler):
-        super.__init__(cpu, scheduler)
 
     def condition_of_applicability(self, pcb):
         return pcb.posicion_fin == pcb.posicion_ini
@@ -40,27 +37,21 @@ class KillAlert(InstructionAlert):
 
 class TimeoutAlert(InstructionAlert):
 
-    def __init__(self, cpu, scheduler):
-        super.__init__(cpu, scheduler)
-
     def condition_of_applicability(self, pcb):
         raise NotImplemented
 
     def alert_cpu(self, pcb):
-        super.alert_cpu(pcb)
+        super(TimeoutAlert).alert_cpu(pcb)
         pcb.state = ProcessState.ready
 
 
 class IOAlert(InstructionAlert):
 
-    def __init__(self, cpu, scheduler):
-        super.__init__(cpu, scheduler)
-
     def condition_of_applicability(self, pcb):
         return pcb.next_instruction().is_io_instruction()
 
     def alert_cpu(self, pcb):
-        super.alert_cpu(pcb)
+        super(IOAlert).alert_cpu(pcb)
         pcb.state = ProcessState.waiting
         #Podriamos hacer algo en el medio, como procesar la IOInstruction
         pcb.state = ProcessState.ready
@@ -68,13 +59,10 @@ class IOAlert(InstructionAlert):
 
 class NewAlert(InstructionAlert):
 
-    def __init__(self, cpu, scheduler):
-        super.__init__(cpu, scheduler)
-
     def condition_of_applicability(self, pcb):
         pcb.state.equals(ProcessState.new)
 
     def alert_cpu(self, pcb):
-        super.alert_cpu(pcb)
+        super(NewAlert).alert_cpu(pcb)
         PCBTable.add(pcb)
         pcb.state = ProcessState.ready
