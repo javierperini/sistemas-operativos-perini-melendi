@@ -16,7 +16,7 @@ class AdministradorDeMemoria:
         self.strategy.hayEspacioPara(tamanio)
 
     def nextPost(self):
-        return self.strategy.siguientePosicion()
+        return self.strategy.getNextInstruction()
 
     def readMemory(self, programa):
         return self.strategy.getNextInstruction(programa)
