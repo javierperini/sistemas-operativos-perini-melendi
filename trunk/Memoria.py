@@ -32,6 +32,8 @@ class Memoria:
         self.registros.remove[indice]
 
 
+
+
 class TestsMemoria(unittest.TestCase):
 
     def setUp(self):
