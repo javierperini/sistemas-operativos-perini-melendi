@@ -6,5 +6,5 @@ class BlockTable:
     def __init__(self):
         self.diccionario = dict()
 
-    def put(self, block):
-        pass
+    def put(self, pid, block):
+        self.diccionario.__setitem__(pid, block)
