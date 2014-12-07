@@ -39,17 +39,15 @@ class Kernel:
         programa = self.getPrograma(nombre_programa)
         if self.admin_memoria.hayEspacioPara(programa.size):
             pcb = self.crear_pcb(nombre_programa)
-            proceso = self.crear_proceso(programa, pcb)
             self.pcb_table.add(pcb)
             self.admin_memoria.almacenar(programa)
-            self.colaDeReady.add(proceso)
+            self.colaDeReady.add(pcb)
             self.schelduler.get_pcb(self.colaDeReady)
 
         else:
             self.imprimirError("NO HAY LUGAR ss")
 
-    def crear_proceso(self, programa, pcb):
-        return Process(programa, pcb)
+
 
     def imprimirError(self, mensaje):
         pass
