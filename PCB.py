@@ -11,10 +11,10 @@ class PCB:
         self._priority = priority
 
     def initial_position(self):
-        return self.posicion_ini
+        return self.init_position
 
     def final_position(self):
-        return self.posicion_fin
+        return self.final_position
 
     def get_pc(self):
         return self.pc
