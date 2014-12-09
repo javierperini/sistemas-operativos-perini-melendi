@@ -11,7 +11,7 @@ class CPU():
         self.memoryAdmin = memory_admin
 
     def run(self, pcb):
-        self.memoryAdmin.read(pcb.posicion_ini)
+        self.memoryAdmin.readMemory(pcb.posicion_ini)
         self.alerter.alert_for(pcb)
 
 
