@@ -6,12 +6,12 @@ __author__ = 'memonono'
 
 class CPU():
 
-    def __init__(self, memory):
+    def __init__(self, memory_admin):
         self.alerter = Alerter()
-        self.memory = memory
+        self.memoryAdmin = memory_admin
 
     def run(self, pcb):
-        self.memory.instructions_for(pcb.posicion_ini)
+        self.memoryAdmin.read(pcb.posicion_ini)
         self.alerter.alert_for(pcb)
 
 
