@@ -1,8 +1,6 @@
-import Queue
-from PCB import *
-from Cpu import *
-from Kernel import *
 import unittest
+import Cpu
+from PCB import *
 
 
 class Scheduler:
