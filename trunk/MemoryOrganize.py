@@ -35,7 +35,7 @@ class AsignacionContinua(MemoryOrganize):
         self.bloques = []
 
     def hayEspacioPara(self, tamanio):
-        self.memory.compactar()
+        self.compactar()
         return self.memory.hayEspacioParaGuardar(tamanio)
 
     def saveProgram(self, pcb, program):
@@ -44,15 +44,15 @@ class AsignacionContinua(MemoryOrganize):
         for instruction in program.getInstrucciones():
             self.memory.write(self.nextPositionLibre(), instruction)
 
-    def nextPosition(self,pcb):
+    def nextPosition(self, pcb):
         ## BLOQUE PROXIMA INSTRUCCION A LEER
-        return self.bloque.nextPost(pcb)
+        return self.meoro(pcb)
 
     def deleteMemory(self, indice):
         self.memory.delete(indice)
 
     def compactar(self):
-        self.memory.compactar ##MEMORIA COMPACTAR
+        for i in
 
     def guardarBloque(self, bloque):
         self.bloques.append(bloque)
