@@ -39,20 +39,56 @@ class AsignacionContinua(MemoryOrganize):
         return self.memory.hayEspacioParaGuardar(tamanio)
 
     def saveProgram(self, pcb, program):
-        bloque = Block(program.size(), program.nombre, self.nextPosition(), self.nextPosition()+program.size())
-        self.guardarBloque(bloque)
+        posicion = self.nextPosition(pcb)
+        size = program.size()
+        block = Block(size, pcb.pid, posicion, posicion+size)
+        self.guardarBloque(block)
         for instruction in program.getInstrucciones():
-            self.memory.write(self.nextPositionLibre(), instruction)
+            self.memory.write(self.nextPosition(pcb), instruction)
 
     def nextPosition(self, pcb):
-        ## BLOQUE PROXIMA INSTRUCCION A LEER
-        return self.meoro(pcb)
+        block = self.getBloque(pcb)
+        pcb.sum_pc()
+        return block.next_pos()
+
+    def getBloque(self, pcb):
+        for i in self.bloques:
+            if i.get_pid == pcb:
+                return i
 
     def deleteMemory(self, indice):
         self.memory.delete(indice)
 
     def compactar(self):
-        for i in
+        borrar = []
+        for i in self.bloques:
+            if i.get_usado:
+                self.delete_block_memory(i)
+                borrar.append(i)
+        self.delete_blocks(borrar)
+
+    def delete_blocks(self, list_delete):
+        for i in list_delete:
+            self.bloques.remove(i)
+
+    def delete_block_memory(self, bloque):
+        posicion_inicial = bloque.getPosicionInicial
+        posicion_final = bloque.getPosicionFinal
+        self.reasignar_block(bloque.get_pid, posicion_inicial, posicion_final)
+        for i in range(posicion_inicial, posicion_final):
+            self.deleteMemory(i)
+
+    def reasignar_block(self, pid, posicion_ini, posicion_fin):
+        con_ini = posicion_ini
+        con_final = posicion_fin
+        for i in self.bloques:
+            if i.get_pid != pid:
+                posFinalAct = i.getPosicionFinal
+                posInicialAct = i.getPosicionInicial
+                i.setPosicionFinal(con_final)
+                i.setPosicionInicial(con_ini)
+                con_ini = posInicialAct
+                con_final = posFinalAct
 
     def guardarBloque(self, bloque):
         self.bloques.append(bloque)
@@ -73,7 +109,7 @@ class Paginacion(MemoryOrganize):
         while self.numeroDeMarcos > contador:
             pos_final = tamanio_ant + self.tamanioDeMarco
             marco = Marco(contador+1, self.tamanioDeMarco, tamanio_ant, pos_final)
-            self.marquitos.append(marco)
+            marquitos.append(marco)
             tamanio_ant = pos_final + 1
             contador += 1
 
@@ -82,12 +118,12 @@ class Paginacion(MemoryOrganize):
     def saveProgram(self, pcb, program):
         pages = []
         contador = 0
-        marcoActual = self.getMarcoLibre() ## DAME MARCO LIBRES
+        marcoActual = self.getMarcoLibre()
         pageActual = Page(marcoActual)
         for instruction in program.getInstrucciones():
             if pageActual.getTamanio >= contador:
                 pageActual.addNroInstruction(pcb.getPc())
-                self.memory.write(self.nextPosition(), instruction)
+                self.memory.write(self.nextPosition(pcb), instruction)
                 contador += 1
             else:
                 contador = 0
@@ -96,7 +132,6 @@ class Paginacion(MemoryOrganize):
                 pageActual = Page(marcoActual)
         pages.append(pageActual)
         self.blockTable.put(pcb.getPid(), pages)
-        #DEBERIA SER UN BLOQUE LA CONCHA DE TU MADRE
 
     def hayEspacioPara(self, tamanio):
         contador = 0
@@ -107,7 +142,6 @@ class Paginacion(MemoryOrganize):
         return tamanioNecesario <= contador
 
     def nextPosition(self, pcb):
-        # TENGO QUE IR AL MARCO Y PEDIRLE  LA INSTRUCCION QUE ESTOY BUSCANDO
         numeroDeMarco = pcb.pid/self.tamanioDeMarco
         marco = self.getMarco(numeroDeMarco)
         numeroDeInstruccion = pcb.getPc % self.tamanioDeMarco

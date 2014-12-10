@@ -19,6 +19,9 @@ class PCB:
     def get_pc(self):
         return self.pc
 
+    def sum_pc(self):
+        self.pc += 1
+
     def get_state(self):
         return self.state
 

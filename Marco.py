@@ -9,6 +9,7 @@ class Marco:
         self.firstPosition = firstPosition
         self.lastPosition = lastPosition
         self.estoyLibre = True
+        self.posicion_read = firstPosition
         ##self.dirs_memory = [firstPosition .. lastPosition] ##crear rango
 
     def tengoContenido(self):
@@ -23,6 +24,7 @@ class Marco:
     def getLastPosition(self):
         return self.lastPosition
 
-    def next_post(self, nro_instr):
-    ##     self.dirs_memory[nro_instr]
-        pass
+    def next_post(self):
+        position = self.posicion_read
+        self.posicion_read += 1
+        return position
