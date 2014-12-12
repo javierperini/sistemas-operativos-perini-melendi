@@ -4,7 +4,10 @@ __author__ = 'javier'
 class BlockTable:
 
     def __init__(self):
-        self.diccionario = dict()
+        self.diccionario = {}
 
     def put(self, pid, block):
-        self.diccionario.__setitem__(pid, block)
+        self.diccionario[pid] = block
+
+    def get(self, pid):
+       return self.diccionario[pid]

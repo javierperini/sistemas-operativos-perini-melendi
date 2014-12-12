@@ -4,7 +4,7 @@ from Process import *
 from Scheduler import *
 from PCBTable import *
 from MemoryOrganize import *
-
+from Cpu import *
 import Queue
 
 
@@ -15,8 +15,10 @@ class Kernel:
         self.admin_memoria = AdministradorDeMemoria(self.memoria, AsignacionContinua(self.memoria))
         self.colaDeReady = []
         self.pid = 0
-        self.schelduler = Scheduler(self.colaDeReady)
+        self.cpu = Cpu(self.admin_memoria)
+        self.schelduler = Scheduler(self.colaDeReady, self.cpu)
         self.pcb_table = PCBTable()
+
 
     def get_pid(self):
         return self.pid

@@ -10,7 +10,7 @@ class Page:
         self.asociarMarco(marco)
 
     def asociarMarco(self, marco):
-        marco.tengoContenido()
+        marco.setTieneContenido()
 
     def getMarcoAsociado(self):
         return self.marcoAsociado

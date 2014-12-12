@@ -1,12 +1,8 @@
-
-import unittest
-
-
 class Memoria:
     def __init__(self):
         self.registros = []
         self.siguientePosicion = 0
-        self.tamaño = 512
+        self.tamanio = 512
         self.celdasLibres = 512
 
     def read(self, posicion):
@@ -25,3 +21,7 @@ class Memoria:
 
     def delete(self, indice):
         self.registros.pop(indice)
+        self.celdasLibres += 1
+
+    def getCeldasLibres(self):
+        return self.celdasLibres

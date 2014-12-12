@@ -1,7 +1,7 @@
 __author__ = 'memonono'
 
 
-class FileSystemComponent:
+class FileSystemComponent(object):
 
     def __init__(self, size, name, content):
         self.size = size
