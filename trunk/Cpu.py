@@ -4,7 +4,7 @@ from AlertHandler import Alerter
 __author__ = 'memonono'
 
 
-class CPU():
+class Cpu():
 
     def __init__(self, memory_admin):
         self.alerter = Alerter()

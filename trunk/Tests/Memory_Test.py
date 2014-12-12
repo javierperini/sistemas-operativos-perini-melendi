@@ -1,6 +1,7 @@
 from Memoria import *
 import unittest
 
+
 class TestsMemoria(unittest.TestCase):
 
     def setUp(self):
@@ -16,6 +17,10 @@ class TestsMemoria(unittest.TestCase):
 
     def test_readMemoria(self):
         self.assertEqual("primeraInstruccion", self.memoria.read(0))
+
+    def test_deleteMemoria(self):
+        self.memoria.delete(1)
+        self.assertEqual(511, self.memoria.getCeldasLibres())
 
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestsMemoria)

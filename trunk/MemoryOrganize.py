@@ -78,17 +78,40 @@ class AsignacionContinua(MemoryOrganize):
         for i in range(posicion_inicial, posicion_final):
             self.deleteMemory(i)
 
+    def asignar_posicion_block(self, con_final, con_ini, diferecia_fija, diferencia_block, i):
+        if diferencia_block == diferecia_fija:
+            i.setPosicionFinal(con_final)
+            i.setPosicionInicial(con_ini)
+        else:
+            if diferencia_block > diferecia_fija:
+                i.setPosicionInicial(con_ini)
+                i.setPosicionFinal(con_final + 1)
+            else:
+                i.setPosicionInicial(con_ini)
+                i.setPosicionFinal(con_final - 1)
+
     def reasignar_block(self, pid, posicion_ini, posicion_fin):
         con_ini = posicion_ini
         con_final = posicion_fin
+        diferecia_fija = con_final - con_ini
         for i in self.bloques:
             if i.get_pid != pid:
-                posFinalAct = i.getPosicionFinal
-                posInicialAct = i.getPosicionInicial
-                i.setPosicionFinal(con_final)
-                i.setPosicionInicial(con_ini)
-                con_ini = posInicialAct
-                con_final = posFinalAct
+                pos_final_actual = i.getPosicionFinal
+                pos_inicial_actual = i.getPosicionInicial
+                diferencia_block = pos_final_actual - pos_inicial_actual
+                self.asignar_posicion_block(con_final, con_ini, diferecia_fija, diferencia_block, i)
+                self.pasar_datos(i, pos_final_actual, pos_inicial_actual)
+                con_ini = i.getPosicionInicial
+                con_final = i.getPosicionFinal
+
+    def pasar_datos(self, block, pos_final, pos_ini):
+        count = pos_ini
+        for i in range(block.posicionInicial, block.posicionFinal):
+            if count >= pos_final:
+                self.memory.write(self.memory.read(count), i)
+                count += 1
+            else:
+                break
 
     def guardarBloque(self, bloque):
         self.bloques.append(bloque)

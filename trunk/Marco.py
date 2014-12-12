@@ -12,7 +12,7 @@ class Marco:
         self.posicion_read = firstPosition
         ##self.dirs_memory = [firstPosition .. lastPosition] ##crear rango
 
-    def tengoContenido(self):
+    def setTieneContenido(self):
         self.estoyLibre = False
 
     def getEstoyLibre(self):

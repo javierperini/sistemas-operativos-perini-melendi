@@ -1,4 +1,4 @@
-import ProcessState
+from ProcessState import *
 
 
 class PCB:
