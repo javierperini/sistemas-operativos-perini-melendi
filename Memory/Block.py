@@ -1,37 +1,37 @@
 class Block:
 
-    def __init__(self, tamanio, pid, posicionInicial, posicionFinal):
-        self.tamanio = tamanio
+    def __init__(self, size, pid, pos_initial, pos_final):
+        self.size = size
         self.pid = pid
-        self.posicionInicial = posicionInicial
-        self.posicionFinal = posicionFinal
-        self.posicion_read = posicionInicial
-        self.usado = False
+        self.position_initial = pos_initial
+        self.position_final = pos_final
+        self.position_read = pos_initial
+        self.used = False
 
-    def getTamanio(self):
-        return self.tamanio
+    def get_size(self):
+        return self.size
 
-    def get_usado(self):
-        return self.usado
+    def get_used(self):
+        return self.used
 
     def next_pos(self):
-        position = self.posicion_read
-        self.posicion_read += 1
-        if position == self.getPosicionFinal():
-            self.usado = True
+        position = self.position_read
+        self.position_read += 1
+        if position == self.get_position_final():
+            self.used = True
         return position
 
     def get_pid(self):
         return self.pid
 
-    def getPosicionInicial(self):
-        return self.posicionInicial
+    def get_position_initial(self):
+        return self.position_initial
 
-    def getPosicionFinal(self):
-        return self.posicionFinal
+    def get_position_final(self):
+        return self.position_final
 
-    def setPosicionFinal(self, posicion):
-        self.posicionFinal = posicion
+    def set_position_final(self, position):
+        self.position_final = position
 
-    def setPosicionInicial(self, posicion):
-        self.posicionInicial = posicion
+    def set_position_initial(self, position):
+        self.position_initial = position

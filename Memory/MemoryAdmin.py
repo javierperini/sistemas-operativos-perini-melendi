@@ -1,45 +1,23 @@
-from Kernel.Programa import *
-from Disc.Instruccion import *
-from Memory import *
-from MemoryOrganize import *
-import unittest
-
-
 class MemoryAdmin:
-
     def __init__(self, memory, strategy):
         self.memory = memory
         self.strategy = strategy
 
-    def store(self, pcb, program):
-        self.strategy.saveAlmacenar(pcb, program)
+    def save(self, pcb, program):
+        self.strategy.save(pcb, program)
 
-    def hayEspacioPara(self, tamanio):
-        self.strategy.hayEspacioPara(tamanio)
+    def has_run_for(self, size):
+        self.strategy.has_run_for(size)
 
-    def nextPost(self):
-        return self.strategy.getNextInstruction()
+    def next_post_free(self):
+        return self.strategy.next_pos_free()
 
-    def readMemory(self, programa):
-        return self.strategy.getNextInstruction(programa)
+    def next_post(self):
+        return self.strategy.next_position()
 
-    def deleteMemory(self, programa):
-        self.strategy.deleteMemory(programa)
+    def read_memory(self, pcb):
+        return self.strategy.get_next_instruction(pcb)
 
+    def delete_memory(self, program):
+        self.strategy.delete_memory(program)
 
-class TestsAdmin(unittest.TestCase):
-
-    def setUp(self):
-        self.memoria = Memory()
-        self.admin = MemoryAdmin(self.memoria, AsignacionContinua(self.memoria))
-        self.programa1 = Programa()
-        self.instr = Instruccion('Instruccion 1')
-        self.programa1.agregarInstruccion(self.instr)
-        self.admin.store(self.programa1)
-
-    def test_next_position_admin(self):
-        self.assertEquals(1, self.admin.nextPost())
-
-
-suite = unittest.TestLoader().loadTestsFromTestCase(TestsAdmin)
-unittest.TextTestRunner(verbosity=2).run(suite)
