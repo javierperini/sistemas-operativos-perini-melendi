@@ -1,10 +1,10 @@
-from Disc.FileSystemComponent import *
+from FileSystemComponent import *
 
 
 class File(FileSystemComponent):
 
     def __init__(self, name, content):
-        super(File).__init__(name, content)
+        super(File, self).__init__(name, content)
 
     def write(self, content):
         self.content.append(content)

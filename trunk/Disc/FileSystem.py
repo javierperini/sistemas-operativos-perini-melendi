@@ -1,4 +1,4 @@
-from Disc.Folder import *
+from Folder import *
 
 
 class FileSystem:

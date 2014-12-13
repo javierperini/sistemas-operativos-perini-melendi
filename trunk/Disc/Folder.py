@@ -1,10 +1,10 @@
-from Disc.FileSystemComponent import *
+from FileSystemComponent import *
 
 
 class Folder(FileSystemComponent):
 
     def __init__(self, name, content, parent):
-        super(Folder).__init__(name, content)
+        super(Folder, self).__init__(name, content)
         self.parent = parent
 
     def size(self):

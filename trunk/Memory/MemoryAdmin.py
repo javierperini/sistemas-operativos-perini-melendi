@@ -6,7 +6,7 @@ class MemoryAdmin:
     def save(self, pcb, program):
         self.strategy.save(pcb, program)
 
-    def has_run_for(self, size):
+    def has_room_for(self, size):
         self.strategy.has_run_for(size)
 
     def next_post_free(self):
