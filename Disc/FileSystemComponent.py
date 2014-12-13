@@ -1,9 +1,15 @@
 class FileSystemComponent(object):
 
-    def __init__(self, size, name, content):
-        self.size = size
+    def __init__(self, name, content):
+        self.size = 0
         self.name = name
         self.content = content
 
     def open(self):
         return self.content
+
+    def component_named(self, name):
+        pass
+
+    def size(self):
+        pass
