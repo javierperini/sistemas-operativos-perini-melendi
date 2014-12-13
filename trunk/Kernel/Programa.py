@@ -1,16 +1,15 @@
-import OutPut
+from Kernel.Output import Output
 
 
 class Programa:
 
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.instrucciones = []
         self.output = Output()
-        self.indice = 0
 
     def agregarInstruccion(self, instruccion):
         self.instrucciones.append(instruccion)
-        self.indice += 1
 
     def ejecutar(self):
         for instr in self.instrucciones:
