@@ -1,5 +1,6 @@
 import unittest
-from Programa import *
+from Kernel.Programa import *
+from Disc.Instruccion import *
 
 
 class ProgramaTest(unittest.TestCase):
