@@ -1,7 +1,6 @@
 class FileSystemComponent(object):
 
     def __init__(self, name, content):
-        self.size = 0
         self.name = name
         self.content = content
 

@@ -4,7 +4,7 @@ from Disc.Folder import *
 class FileSystem:
 
     def __init__(self):
-        self.root = Folder(0, [], self, '/')
+        self.root = Folder([], self, '/')
 
     def split_path(self, path):
         return path.split("/")
@@ -24,8 +24,10 @@ class FileSystem:
         return self.find(self.root, self.split_path(path))
 
     def mk_dir(self, path, folder_name):
-        self.cd(path).add_component(Folder(0, [], path, folder_name))
+        self.save(path, Folder([], path, folder_name))
 
     def rm(self, path, folder_name):
         self.cd(path).remove_component(folder_name)
 
+    def save(self, path, _file):
+        self.cd(path).add_component(_file)
