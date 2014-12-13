@@ -8,3 +8,6 @@ class PCBTable:
 
     def add(self, pcb):
         self.pcbs.append(pcb)
+
+    def size(self):
+        return self.pcbs.__len__()
