@@ -1,14 +1,12 @@
-from PCBTable import PCBTable
-from ProcessState import ProcessState
-
-__author__ = 'memonono'
+from Scheduler.ProcessState import *
 
 
-class InstructionAlert:
+class InstructionAlert(object):
 
-    def __init__(self, cpu, scheduler):
+    def __init__(self, cpu, scheduler, pcb_table):
         self.cpu = cpu
         self.scheduler = scheduler
+        self.pcb_table = pcb_table
 
     def __new__(cls, *args, **kwargs):
         raise ReferenceError
@@ -20,22 +18,26 @@ class InstructionAlert:
         new_pcb = self.scheduler.nextPCB
         self.cpu.pcb = new_pcb
         new_pcb.state = ProcessState.ready
-        self.cpu.resetRoundRobin(pcb)
+      ##  self.cpu.resetRoundRobin(pcb)  NO EXISTE CREALO
 
 
 class KillAlert(InstructionAlert):
+    def __init__(self, cpu, scheduler, pcb_table):
+        super(KillAlert).__init__(cpu, scheduler, pcb_table)
 
     def condition_of_applicability(self, pcb):
         return pcb.posicion_fin == pcb.posicion_ini
 
     def alert_cpu(self, pcb):
-        super.alert_cpu(pcb)
+        super(KillAlert).alert_cpu(pcb)
         pcb.state = ProcessState.end
-        self.cpu.memory.free(pcb)
-        PCBTable.remove(pcb)
+        self.cpu.memory.free(pcb) ## NO EXISTE CREALO
+        self.pcb_table.remove(pcb)
 
 
 class TimeoutAlert(InstructionAlert):
+    def __init__(self, cpu, scheduler, pcb_table):
+        super(TimeoutAlert).__init__(cpu, scheduler, pcb_table)
 
     def condition_of_applicability(self, pcb):
         raise NotImplemented
@@ -46,6 +48,8 @@ class TimeoutAlert(InstructionAlert):
 
 
 class IOAlert(InstructionAlert):
+    def __init__(self, cpu, scheduler, pcb_table):
+        super(IOAlert).__init__(cpu, scheduler, pcb_table)
 
     def condition_of_applicability(self, pcb):
         return pcb.next_instruction().is_io_instruction()
@@ -58,11 +62,13 @@ class IOAlert(InstructionAlert):
 
 
 class NewAlert(InstructionAlert):
+    def __init__(self, cpu, scheduler, pcb_table):
+        super(NewAlert).__init__(cpu, scheduler, pcb_table)
 
     def condition_of_applicability(self, pcb):
         pcb.state.equals(ProcessState.new)
 
     def alert_cpu(self, pcb):
         super(NewAlert).alert_cpu(pcb)
-        PCBTable.add(pcb)
+        self.pcb_table.add(pcb)
         pcb.state = ProcessState.ready

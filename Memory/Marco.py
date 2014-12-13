@@ -1,6 +1,3 @@
-__author__ = 'javier'
-
-
 class Marco:
 
     def __init__(self, id_marco, tamanioDeMarco, firstPosition, lastPosition):
@@ -10,7 +7,6 @@ class Marco:
         self.lastPosition = lastPosition
         self.estoyLibre = True
         self.posicion_read = firstPosition
-        ##self.dirs_memory = [firstPosition .. lastPosition] ##crear rango
 
     def setTieneContenido(self):
         self.estoyLibre = False

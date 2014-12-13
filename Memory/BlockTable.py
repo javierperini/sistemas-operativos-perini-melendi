@@ -1,6 +1,3 @@
-__author__ = 'javier'
-
-
 class BlockTable:
 
     def __init__(self):

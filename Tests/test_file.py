@@ -1,5 +1,6 @@
-from File import *
 import unittest
+
+from Disc.File import *
 
 
 class TestFile(unittest.TestCase):

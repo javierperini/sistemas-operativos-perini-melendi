@@ -1,7 +1,5 @@
 import threading
 
-__author__ = 'memonono'
-
 
 class Clock:
 

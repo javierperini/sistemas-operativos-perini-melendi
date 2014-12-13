@@ -1,5 +1,6 @@
-from Memoria import *
 import unittest
+
+from Memory.Memoria import *
 
 
 class TestsMemoria(unittest.TestCase):

@@ -1,5 +1,6 @@
 import unittest
-from Marco import *
+
+from Memory.Marco import *
 
 
 class TestMarco(unittest.TestCase):
