@@ -1,6 +1,3 @@
-__author__ = 'javier'
-
-
 class Page:
 
     def __init__(self, marco):

@@ -1,6 +1,3 @@
-__author__ = 'memonono'
-
-
 class PCBTable:
 
     def __init__(self):

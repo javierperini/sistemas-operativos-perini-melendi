@@ -1,12 +1,12 @@
-from Block import *
-from Marco import *
-from BlockTable import *
-from Page import *
+from Memory.Block import *
+from Memory.Marco import *
+from Memory.BlockTable import *
+from Memory.Page import *
 
 __author__ = 'javier matias camila'
 
 
-class MemoryOrganize:
+class MemoryOrganize(object):
 
     def __init__(self, memory):
         self.blockTable = BlockTable()
@@ -31,8 +31,11 @@ class MemoryOrganize:
 class AsignacionContinua(MemoryOrganize):
 
     def __init__(self, memory):
-        super.__init__(memory)
+        super(AsignacionContinua).__init__(memory)
         self.bloques = []
+
+    def __new__(cls, *args, **kwargs):
+        raise ReferenceError
 
     def hayEspacioPara(self, tamanio):
         self.compactar()
@@ -75,8 +78,6 @@ class AsignacionContinua(MemoryOrganize):
         posicion_inicial = bloque.getPosicionInicial
         posicion_final = bloque.getPosicionFinal
         self.reasignar_block(bloque.get_pid, posicion_inicial, posicion_final)
-        for i in range(posicion_inicial, posicion_final):
-            self.deleteMemory(i)
 
     def asignar_posicion_block(self, con_final, con_ini, diferecia_fija, diferencia_block, i):
         if diferencia_block == diferecia_fija:
@@ -120,23 +121,20 @@ class AsignacionContinua(MemoryOrganize):
 class Paginacion(MemoryOrganize):
 
     def __init__(self, memory):
-        super.__init__(memory)
+        super(Paginacion).__init__(memory)
         self.tamanioDeMarco = 5
         self.numeroDeMarcos = memory.getTamanio/self.tamanioDeMarco
-        self.marcos = self.crearMarcos
+        self.marcos = []
+        self.crearMarcos()
 
     def crearMarcos(self):
         contador = 0
         tamanio_ant = 0
-        marquitos = []
         while self.numeroDeMarcos > contador:
             pos_final = tamanio_ant + self.tamanioDeMarco
             marco = Marco(contador+1, self.tamanioDeMarco, tamanio_ant, pos_final)
-            marquitos.append(marco)
+            self.marcos.append(marco)
             tamanio_ant = pos_final + 1
-            contador += 1
-
-        return marquitos
 
     def saveProgram(self, pcb, program):
         pages = []
@@ -171,9 +169,9 @@ class Paginacion(MemoryOrganize):
         return marco.next_post(numeroDeInstruccion)
 
     def getMarco(self, numeroDeMarcoBuscado):
-            for marco in self.marcos:
-                if marco.getNumero == numeroDeMarcoBuscado:
-                    return marco
+        for marco in self.marcos:
+            if marco.getNumero == numeroDeMarcoBuscado:
+                return marco
 
     def getMarcoLibre(self):
         for marco in self.marcos:

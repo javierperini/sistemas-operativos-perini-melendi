@@ -1,5 +1,6 @@
 import unittest
-from Block import *
+
+from Memory.Block import *
 
 
 class TestBlock(unittest.TestCase):

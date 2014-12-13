@@ -1,5 +1,6 @@
 import unittest
-from BlockTable import *
+
+from Memory.BlockTable import *
 
 
 class TestBlockTable(unittest.TestCase):

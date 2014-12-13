@@ -1,13 +1,10 @@
-from threading import Thread
-from AlertHandler import Alerter
-
-__author__ = 'memonono'
+from Cpu.AlertHandler import Alerter
 
 
 class Cpu():
 
-    def __init__(self, memory_admin):
-        self.alerter = Alerter()
+    def __init__(self, memory_admin, scheduler, pcb_table):
+        self.alerter = Alerter(self, scheduler, pcb_table)
         self.memoryAdmin = memory_admin
 
     def run(self, pcb):

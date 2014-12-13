@@ -39,7 +39,14 @@ class PriorityScheduler():
         return self._readyQueue.pop()
 
     def add_pcb(self, pcb):
-        pass
+        aux = self._readyQueue
+        self._readyQueue = []
+        for i in range(len(aux)-1):
+            if i > pcb.priority() & pcb.priority() < i+1:
+                self._readyQueue.append(aux[i])
+                self._readyQueue.append(pcb)
+            else:
+                self._readyQueue.append(aux[i])
 
 
 class RoundRobinScheduler():

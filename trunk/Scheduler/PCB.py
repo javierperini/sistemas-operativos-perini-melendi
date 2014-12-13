@@ -1,4 +1,4 @@
-from ProcessState import *
+from Scheduler.ProcessState import *
 
 
 class PCB:
@@ -35,5 +35,4 @@ class PCB:
         return self._priority
 
     def __cmp__(self, otroPCB):
-    #Para compararme a mi con otro pcb, por prioridad
         return cmp(self._priority, otroPCB.get_Priority())
