@@ -1,4 +1,5 @@
 class Scheduler:
+
     def __init__(self):
         self.policy = None
         self.ready_queue = []
