@@ -1,7 +1,4 @@
-import unittest
-
-
-class Memory:
+class Memory(object):
     def __init__(self):
         self.records = []
         self.next_position = 0
@@ -29,23 +26,3 @@ class Memory:
     def free_cells(self):
         return self.free_cells
 
-
-class TestsMemory(unittest.TestCase):
-
-    def setUp(self):
-        self.memory = Memory()
-        self.memory.write(0, "primeraInstruccion")
-        self.memory.write(1, "segundaInstruccion")
-
-    def test_next_position(self):
-        self.assertEquals(2, self.memory.next_position)
-
-    def test_free_memory_to_save(self):
-        self.assertTrue(self.memory.free_memory_to_save(10))
-
-    def test_read_memory(self):
-        self.assertEqual("primeraInstruccion", self.memory.read(0))
-
-
-suite = unittest.TestLoader().loadTestsFromTestCase(TestsMemory)
-unittest.TextTestRunner(verbosity=2).run(suite)

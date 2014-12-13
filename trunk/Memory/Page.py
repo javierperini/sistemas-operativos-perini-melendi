@@ -1,20 +1,20 @@
 class Page:
 
     def __init__(self, marco):
-        self.tamanio = marco.tamanioDeMarco
+        self.size = marco.get_size()
         self.instruction = []
-        self.marcoAsociado = marco
-        self.asociarMarco(marco)
+        self.marco = marco
+        self.associate_marco(marco)
 
-    def asociarMarco(self, marco):
-        marco.setTieneContenido()
+    def associate_marco(self, marco):
+        marco.set_is_full()
 
-    def getMarcoAsociado(self):
-        return self.marcoAsociado
+    def get_marco(self):
+        return self.marco
 
-    def getTamanio(self):
-        return self.tamanio
+    def get_size(self):
+        return self.size
 
-    def addNroInstruction(self, instrution):
+    def add_number_instruction(self, instrution):
         self.instruction = instrution
 

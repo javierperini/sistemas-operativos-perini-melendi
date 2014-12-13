@@ -1,9 +1,7 @@
-from Block import Block
 from Marco import *
 from BlockTable import *
 from Page import *
-
-__author__ = 'javier matias camila'
+from Block import *
 
 
 class MemoryOrganize(object):
@@ -12,100 +10,99 @@ class MemoryOrganize(object):
         self.blockTable = BlockTable()
         self.memory = memory
 
-    def hayEspacioPara(self, tamanio):
+    def has_run_for(self, size):
         pass
 
-    def saveProgram(self, pcb, program):
+    def save(self, pcb, program):
         pass
 
-    def nextPosition(self, pcb):
+    def next_position(self, pcb):
         pass
 
-    def getNextInstruction(self, pcb):
-        return self.memory.read(self.nextPosition(pcb))
+    def next_post_free(self):
+        pass
 
-    def deleteMemory(self, instruction):
-        self.memory.delete(instruction)
+    def get_next_instruction(self, pcb):
+        return self.memory.read(self.next_position(pcb))
+
+    def delete_memory(self, program):
+        for i in program.getInstrucciones():
+            self.memory.delete(i)
 
 
 class AsignacionContinua(MemoryOrganize):
 
     def __init__(self, memory):
-        super(AsignacionContinua).__init__(memory)
-        self.bloques = []
+        super(AsignacionContinua, self).__init__(memory)
+        self.blocks = []
 
-    def __new__(cls, *args, **kwargs):
-        raise ReferenceError
+    def has_run_for(self, size):
+        self.compact()
+        return self.memory.free_memory_to_save(size)
 
-    def hayEspacioPara(self, tamanio):
-        self.compactar()
-        return self.memory.free_memory_to_save(tamanio)
-
-    def saveProgram(self, pcb, program):
-        posicion = self.nextPosition(pcb)
+    def save(self, pcb, program):
+        position = self.next_position(pcb)
         size = program.size()
-        block = Block(size, pcb.pid, posicion, posicion+size)
-        self.guardarBloque(block)
+        block = Block(size, pcb.pid, position, position+size)
+        self.save_block(block)
         for instruction in program.getInstrucciones():
-            self.memory.write(self.nextPosition(pcb), instruction)
+            self.memory.write(self.next_position(pcb), instruction)
 
-    def nextPosition(self, pcb):
-        block = self.getBloque(pcb)
+    def next_post_free(self):
+        return self.memory.next_position()
+
+    def next_position(self, pcb):
+        block = self.get_block(pcb)
         pcb.sum_pc()
         return block.next_pos()
 
-    def getBloque(self, pcb):
-        for i in self.bloques:
+    def get_block(self, pcb):
+        for i in self.blocks:
             if i.get_pid == pcb:
                 return i
 
-    def deleteMemory(self, indice):
-        self.memory.delete(indice)
+    def delete_memory(self, index):
+        self.memory.delete(index)
 
-    def compactar(self):
-        borrar = []
-        for i in self.bloques:
-            if i.get_usado:
-                self.delete_block_memory(i)
-                borrar.append(i)
-        self.delete_blocks(borrar)
+    def compact(self):
+        delete = []
+        for i in self.blocks:
+            if i.get_used:
+                self.reassign_block(i.get_pid, i.get_position_initial(), i.get_position_final())
+                delete.append(i)
+        self.delete_blocks(delete)
 
     def delete_blocks(self, list_delete):
         for i in list_delete:
-            self.bloques.remove(i)
+            self.blocks.remove(i)
 
-    def delete_block_memory(self, bloque):
-        posicion_inicial = bloque.getPosicionInicial
-        posicion_final = bloque.getPosicionFinal
-        self.reasignar_block(bloque.get_pid, posicion_inicial, posicion_final)
-
-    def asignar_posicion_block(self, con_final, con_ini, diferecia_fija, diferencia_block, i):
-        if diferencia_block == diferecia_fija:
-            i.setPosicionFinal(con_final)
-            i.setPosicionInicial(con_ini)
-        else:
-            if diferencia_block > diferecia_fija:
-                i.setPosicionInicial(con_ini)
-                i.setPosicionFinal(con_final + 1)
-            else:
-                i.setPosicionInicial(con_ini)
-                i.setPosicionFinal(con_final - 1)
-
-    def reasignar_block(self, pid, posicion_ini, posicion_fin):
+    def reassign_block(self, pid, posicion_ini, posicion_fin):
         con_ini = posicion_ini
         con_final = posicion_fin
         diferecia_fija = con_final - con_ini
-        for i in self.bloques:
+        for i in self.blocks:
             if i.get_pid != pid:
-                pos_final_actual = i.getPosicionFinal
-                pos_inicial_actual = i.getPosicionInicial
+                pos_final_actual = i.get_position_final
+                pos_inicial_actual = i.get_position_initial
                 diferencia_block = pos_final_actual - pos_inicial_actual
-                self.asignar_posicion_block(con_final, con_ini, diferecia_fija, diferencia_block, i)
-                self.pasar_datos(i, pos_final_actual, pos_inicial_actual)
-                con_ini = i.getPosicionInicial
-                con_final = i.getPosicionFinal
+                self.set_position_block(con_final, con_ini, diferecia_fija, diferencia_block, i)
+                self.move_information(i, pos_final_actual, pos_inicial_actual)
+                con_ini = i.get_position_initial
+                con_final = i.get_position_final
 
-    def pasar_datos(self, block, pos_final, pos_ini):
+    def set_position_block(self, con_final, con_ini, diferecia_fija, diferencia_block, i):
+        if diferencia_block == diferecia_fija:
+            i.set_position_final(con_final)
+            i.set_position_initial(con_ini)
+        else:
+            if diferencia_block > diferecia_fija:
+                i.set_position_initial(con_ini)
+                i.set_position_final(con_final + 1)
+            else:
+                i.set_position_initial(con_ini)
+                i.set_position_final(con_final - 1)
+
+    def move_information(self, block, pos_final, pos_ini):
         count = pos_ini
         for i in range(block.posicionInicial, block.posicionFinal):
             if count >= pos_final:
@@ -114,66 +111,69 @@ class AsignacionContinua(MemoryOrganize):
             else:
                 break
 
-    def guardarBloque(self, bloque):
-        self.bloques.append(bloque)
+    def save_block(self, block):
+        self.blocks.append(block)
 
 
 class Paginacion(MemoryOrganize):
 
     def __init__(self, memory):
-        super(Paginacion).__init__(memory)
-        self.tamanioDeMarco = 5
-        self.numeroDeMarcos = memory.getTamanio/self.tamanioDeMarco
+        super(Paginacion, self).__init__(memory)
+        self.size_marco = 5
+        self.number_Marcos = memory.get_size/self.size_marco
         self.marcos = []
-        self.crearMarcos()
+        self.create_marcos()
 
-    def crearMarcos(self):
-        contador = 0
-        tamanio_ant = 0
-        while self.numeroDeMarcos > contador:
-            pos_final = tamanio_ant + self.tamanioDeMarco
-            marco = Marco(contador+1, self.tamanioDeMarco, tamanio_ant, pos_final)
+    def create_marcos(self):
+        count = 0
+        size_before = 0
+        while self.number_Marcos > count:
+            pos_final = size_before + self.size_marco
+            marco = Marco(count+1, self.size_marco, size_before, pos_final)
             self.marcos.append(marco)
-            tamanio_ant = pos_final + 1
+            size_before = pos_final + 1
 
-    def saveProgram(self, pcb, program):
+    def save(self, pcb, program):
         pages = []
-        contador = 0
-        marcoActual = self.getMarcoLibre()
-        pageActual = Page(marcoActual)
+        count = 0
+        marco_current = self.get_marco_free()
+        page_current = Page(marco_current)
         for instruction in program.getInstrucciones():
-            if pageActual.getTamanio >= contador:
-                pageActual.addNroInstruction(pcb.getPc())
-                self.memory.write(self.nextPosition(pcb), instruction)
-                contador += 1
+            if page_current.get_size >= count:
+                page_current.add_number_instruction(pcb.getPc())
+                self.memory.write(self.next_position(pcb), instruction)
+                count += 1
             else:
-                contador = 0
-                pages.append(pageActual)
-                marcoActual = self.getMarcoLibre()
-                pageActual = Page(marcoActual)
-        pages.append(pageActual)
+                count = 0
+                pages.append(page_current)
+                marco_current = self.get_marco_free()
+                page_current = Page(marco_current)
+        pages.append(page_current)
         self.blockTable.put(pcb.getPid(), pages)
 
-    def hayEspacioPara(self, tamanio):
-        contador = 0
-        tamanioNecesario = tamanio/self.tamanioDeMarco
+    def has_run_for(self, size):
+        count = 0
+        required_size = size/self.size_marco
         for marco in self.marcos:
-            if marco.getEstoyLibre:
-                contador += 1
-        return tamanioNecesario <= contador
+            if marco.get_is_free:
+                count += 1
+        return required_size <= count
 
-    def nextPosition(self, pcb):
-        numeroDeMarco = pcb.pid/self.tamanioDeMarco
-        marco = self.getMarco(numeroDeMarco)
-        numeroDeInstruccion = pcb.getPc % self.tamanioDeMarco
-        return marco.next_post(numeroDeInstruccion)
+    def next_position(self, pcb):
+        number_marco = pcb.pid/self.size_marco
+        marco = self.get_marco(number_marco)
+        number_instrution = pcb.getPc % self.size_marco
+        return marco.next_post(number_instrution)
 
-    def getMarco(self, numeroDeMarcoBuscado):
+    def get_marco(self, number_marco_search):
         for marco in self.marcos:
-            if marco.getNumero == numeroDeMarcoBuscado:
+            if marco.getNumero == number_marco_search:
                 return marco
 
-    def getMarcoLibre(self):
+    def get_marco_free(self):
         for marco in self.marcos:
-            if marco.getEstoyLibre:
-               return marco
+            if marco.get_is_free:
+                return marco
+
+    def next_post_free(self):
+        return self.get_marco_free().get_first_position()

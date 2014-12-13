@@ -1,10 +1,10 @@
 class BlockTable:
 
     def __init__(self):
-        self.diccionario = {}
+        self.dictionary = {}
 
     def put(self, pid, block):
-        self.diccionario[pid] = block
+        self.dictionary[pid] = block
 
     def get(self, pid):
-       return self.diccionario[pid]
+       return self.dictionary[pid]
