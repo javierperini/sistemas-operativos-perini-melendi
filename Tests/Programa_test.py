@@ -1,4 +1,6 @@
-__author__ = 'javier'
+import unittest
+from Programa import *
+
 
 class ProgramaTest(unittest.TestCase):
     def setUp(self):
