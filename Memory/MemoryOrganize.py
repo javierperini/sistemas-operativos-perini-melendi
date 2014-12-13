@@ -39,7 +39,7 @@ class AsignacionContinua(MemoryOrganize):
 
     def hayEspacioPara(self, tamanio):
         self.compactar()
-        return self.memory.hayEspacioParaGuardar(tamanio)
+        return self.memory.free_memory_to_save(tamanio)
 
     def saveProgram(self, pcb, program):
         posicion = self.nextPosition(pcb)

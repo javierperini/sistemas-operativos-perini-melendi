@@ -2,6 +2,7 @@ from Scheduler.ProcessState import *
 
 
 class PCB:
+
     def __init__(self, init, fin, pc, pid, priority):
         self.init_position = init
         self.final_position = fin
@@ -28,11 +29,11 @@ class PCB:
     def get_pid(self):
         return self.pid
 
-    def set_state(self, stateNew):
-        self.state = stateNew
+    def set_state(self, state_new):
+        self.state = state_new
 
     def get_priority(self):
         return self._priority
 
-    def __cmp__(self, otroPCB):
-        return cmp(self._priority, otroPCB.get_Priority())
+    def __cmp__(self, another_pcb):
+        return cmp(self._priority, another_pcb.get_Priority())
