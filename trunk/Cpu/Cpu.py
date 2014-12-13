@@ -1,23 +1,42 @@
-from Cpu.AlertHandler import Alerter
+from AlertHandler import Alerter
+
+__author__ = 'memonono'
 
 
 class Cpu():
 
-    def __init__(self, memory_admin, scheduler, pcb_table):
-        self.alerter = Alerter(self, scheduler, pcb_table)
-        self.memoryAdmin = memory_admin
+    def __init__(self, kernel):
+        self.kernel = kernel
+        self.alerter = Alerter(self, self.kernel.scheduler)
+        self.memory_admin = kernel.memory_admin
+
+    def read_burst_instruction(self, pcb, quantum):
+        while quantum > 0:
+            self.memory_admin.readMemory(pcb.posicion_ini)
+            quantum(quantum - 1)
 
     def run(self, pcb):
-        self.memoryAdmin.readMemory(pcb.posicion_ini)
+        self.read_burst_instruction(pcb, self.memory_admin.quantum())
         self.alerter.alert_for(pcb)
 
+from Scheduler import PCB
+from Disc import FileSystem
+from Kernel import Kernel
+import unittest
+import Memory
 
 
-#Hacer algo
-#Lo que va a hacer es ir a buscar a memoria las instrucciones
-#cargadas del proximo proceso a ejecutar.
+class TestsCpu(unittest.TestCase):
 
-#Se crea un nuevo thread cuando el proceso pasa a la cola de ready?
+    def setUp(self):
+        self.pcb = PCB(100, 200, 40, 55, 5)
+        self.kernel = Kernel(Memory, FileSystem)
+        self.cpu = Cpu(self.kernel)
 
-#El reloj tira un Tick cada x cantidad de tiempo
-#puede ser un thread, un while, o usar time y tirar un notify cada x cantidad de tiempo
+    def test_cpu_run_instruction(self):
+        result = "Acá va el resultado"
+        self.assertEquals(result, (self.cpu.run(self.pcb)))
+
+
+suite = unittest.TestLoader().loadTestsFromTestCase(TestsCpu)
+unittest.TextTestRunner(verbosity=2).run(suite)

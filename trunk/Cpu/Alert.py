@@ -3,10 +3,10 @@ from Scheduler.ProcessState import *
 
 class InstructionAlert(object):
 
-    def __init__(self, cpu, scheduler, pcb_table):
+    def __init__(self, cpu):
         self.cpu = cpu
-        self.scheduler = scheduler
-        self.pcb_table = pcb_table
+        self.scheduler = self.cpu.scheduler
+        self.pcb_table = self.scheduler.pcb_table
 
     def __new__(cls, *args, **kwargs):
         raise ReferenceError
@@ -18,12 +18,11 @@ class InstructionAlert(object):
         new_pcb = self.scheduler.nextPCB
         self.cpu.pcb = new_pcb
         new_pcb.state = ProcessState.ready
-      ##  self.cpu.resetRoundRobin(pcb)  NO EXISTE CREALO
 
 
 class KillAlert(InstructionAlert):
-    def __init__(self, cpu, scheduler, pcb_table):
-        super(KillAlert).__init__(cpu, scheduler, pcb_table)
+    def __init__(self, cpu):
+        super(KillAlert).__init__(cpu)
 
     def condition_of_applicability(self, pcb):
         return pcb.posicion_fin == pcb.posicion_ini
@@ -31,13 +30,13 @@ class KillAlert(InstructionAlert):
     def alert_cpu(self, pcb):
         super(KillAlert).alert_cpu(pcb)
         pcb.state = ProcessState.end
-        self.cpu.memory.free(pcb) ## NO EXISTE CREALO
+        self.cpu.memory_admin.free(pcb) ## NO EXISTE CREALO
         self.pcb_table.remove(pcb)
 
 
 class TimeoutAlert(InstructionAlert):
-    def __init__(self, cpu, scheduler, pcb_table):
-        super(TimeoutAlert).__init__(cpu, scheduler, pcb_table)
+    def __init__(self, cpu):
+        super(TimeoutAlert).__init__(cpu)
 
     def condition_of_applicability(self, pcb):
         raise NotImplemented
@@ -48,8 +47,8 @@ class TimeoutAlert(InstructionAlert):
 
 
 class IOAlert(InstructionAlert):
-    def __init__(self, cpu, scheduler, pcb_table):
-        super(IOAlert).__init__(cpu, scheduler, pcb_table)
+    def __init__(self, cpu):
+        super(IOAlert).__init__(cpu)
 
     def condition_of_applicability(self, pcb):
         return pcb.next_instruction().is_io_instruction()
@@ -62,8 +61,8 @@ class IOAlert(InstructionAlert):
 
 
 class NewAlert(InstructionAlert):
-    def __init__(self, cpu, scheduler, pcb_table):
-        super(NewAlert).__init__(cpu, scheduler, pcb_table)
+    def __init__(self, cpu):
+        super(NewAlert).__init__(cpu)
 
     def condition_of_applicability(self, pcb):
         pcb.state.equals(ProcessState.new)

@@ -3,8 +3,8 @@ from Cpu.Alert import KillAlert, TimeoutAlert, IOAlert, NewAlert
 
 class Alerter:
 
-    def __init__(self, cpu, scheduler, pcb_table):
-        self.alerts = [KillAlert(cpu, scheduler, pcb_table), TimeoutAlert(cpu, scheduler, pcb_table), IOAlert(cpu, scheduler, pcb_table), NewAlert(cpu, scheduler, pcb_table)]
+    def __init__(self, cpu):
+        self.alerts = [KillAlert(cpu), TimeoutAlert(cpu), IOAlert(cpu), NewAlert(cpu)]
         self.cpu = cpu
 
     def find(self, pcb):
