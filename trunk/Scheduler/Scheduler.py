@@ -1,7 +1,6 @@
 class Scheduler:
-    def __init__(self, cola_de_ready, cpu):
+    def __init__(self, cola_de_ready):
         self._policy = None
-        self._cpu = cpu
         self._ready_queue = cola_de_ready
 
     def set_as_fifo(self):
@@ -14,7 +13,7 @@ class Scheduler:
         self._policy = RoundRobinScheduler(self._ready_queue)
 
     def get_pcb(self):
-        self._cpu.run(self._policy.get_pcb())
+        self._policy.get_pcb()
 
     def add_pcb(self, pcb):
         self._policy.add_pcb(pcb)
