@@ -1,18 +1,19 @@
-from Memory.AdministradorDeMemoria import *
+from Memory.MemoryAdmin import *
 from Scheduler.PCBTable import *
 from Memory.MemoryOrganize import *
 from Scheduler.Scheduler import *
 from Cpu.Cpu import *
+from Scheduler.PCB import PCB
 
 
 class Kernel:
     def __init__(self, memory, file_system):
         self.file_system = file_system
         self.memory = memory
-        self.memory_admin = AdministradorDeMemoria(self.memory, AsignacionContinua(self.memory))
+        self.memory_admin = MemoryAdmin(self.memory, AsignacionContinua(self.memory))
         self.ready_queue = []
         self.pid = 0
-        self.scheduler = Scheduler(self.ready_queue, self.cpu)
+        self.scheduler = Scheduler(self.ready_queue)
         self.cpu = Cpu(self.memory_admin)
         self.pcb_table = PCBTable()
 
@@ -40,7 +41,7 @@ class Kernel:
         if self.memory_admin.hayEspacioPara(program.size):
             pcb = self.create_pcb(program, priority)
             self.pcb_table.add(pcb)
-            self.memory_admin.almacenar(pcb, program)
+            self.memory_admin.store(pcb, program)
             self.scheduler.add_pcb(pcb)
             self.scheduler.get_pcb()
 
