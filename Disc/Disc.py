@@ -1,4 +1,4 @@
-from Disc.FileSystem import FileSystem
+from FileSystem import FileSystem
 
 
 class Disc:

@@ -1,4 +1,4 @@
-from Kernel.Output import Output
+from Output import Output
 
 
 class Programa:

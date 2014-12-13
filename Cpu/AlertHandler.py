@@ -1,4 +1,4 @@
-from Cpu.Alert import KillAlert, TimeoutAlert, IOAlert, NewAlert
+from Alert import *
 
 
 class Alerter:
