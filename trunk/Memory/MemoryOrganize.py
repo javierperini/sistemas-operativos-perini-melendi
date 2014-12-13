@@ -1,7 +1,7 @@
-from Memory.Block import *
-from Memory.Marco import *
-from Memory.BlockTable import *
-from Memory.Page import *
+from Block import Block
+from Marco import *
+from BlockTable import *
+from Page import *
 
 __author__ = 'javier matias camila'
 

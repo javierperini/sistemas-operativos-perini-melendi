@@ -1,8 +1,8 @@
-from Memory.MemoryAdmin import *
-from Scheduler.PCBTable import *
+from Memory.MemoryAdmin import MemoryAdmin
+from Scheduler.PCBTable import PCBTable
 from Memory.MemoryOrganize import *
-from Scheduler.Scheduler import *
-from Cpu.Cpu import *
+from Scheduler.Scheduler import Scheduler
+from Cpu.Cpu import Cpu
 from Scheduler.PCB import PCB
 
 

@@ -1,16 +1,18 @@
-from Kernel import Programa
-from Disc import Instruccion
-import Memory
+from Kernel.Programa import *
+from Disc.Instruccion import *
+from Memory import *
+from MemoryOrganize import *
 import unittest
 
 
-class AdministradorDeMemoria:
-    def __init__(self, memoria, strategy):
-        self.memoria = memoria
+class MemoryAdmin:
+
+    def __init__(self, memory, strategy):
+        self.memory = memory
         self.strategy = strategy
 
-    def almacenar(self, pcb, programa):
-        self.strategy.saveAlmacenar(pcb, programa)
+    def store(self, pcb, program):
+        self.strategy.saveAlmacenar(pcb, program)
 
     def hayEspacioPara(self, tamanio):
         self.strategy.hayEspacioPara(tamanio)
@@ -29,7 +31,7 @@ class TestsAdmin(unittest.TestCase):
 
     def setUp(self):
         self.memoria = Memory()
-        self.admin = AdministradorDeMemoria(self.memoria)
+        self.admin = MemoryAdmin(self.memoria, AsignacionContinua(self.memoria))
         self.programa1 = Programa()
         self.instr = Instruccion('Instruccion 1')
         self.programa1.agregarInstruccion(self.instr)
