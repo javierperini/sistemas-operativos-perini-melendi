@@ -17,7 +17,7 @@ class ProgramaTest(unittest.TestCase):
         self.assertEquals(self.progr.getElemento(0), self.instr)
 
     def test_instruccionesOrdenadasEnOutput(self):
-        self.progr.ejecutar()
+        self.progr.execute()
      #Assert
         self.assertEquals('Instruccion 1', self.progr.getInstruccionEjecutada(0))
 

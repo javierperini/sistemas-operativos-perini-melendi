@@ -1,4 +1,4 @@
-import Programa
+from Kernel import Programa
 from Disc import Instruccion
 import Memory
 import unittest

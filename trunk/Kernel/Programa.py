@@ -1,4 +1,4 @@
-from Kernel.Output import *
+import OutPut
 
 
 class Programa:

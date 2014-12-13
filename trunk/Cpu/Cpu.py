@@ -1,5 +1,5 @@
 from AlertHandler import Alerter
-
+import thread
 __author__ = 'memonono'
 
 
@@ -12,12 +12,14 @@ class Cpu():
 
     def read_burst_instruction(self, pcb, quantum):
         while quantum > 0:
-            self.memory_admin.readMemory(pcb.posicion_ini)
-            quantum(quantum - 1)
-
-    def run(self, pcb):
-        self.read_burst_instruction(pcb, self.memory_admin.quantum())
+                self.memory_admin.readMemory(pcb.posicion_ini)
+                quantum(quantum - 1)
         self.alerter.alert_for(pcb)
+
+    def run(self):
+        pcb = self.kernel.scheduler.get_pcb()
+        thread.start_new_thread(self.read_burst_instruction, [pcb, self.memory_admin.quantum()])
+
 
 from Scheduler import PCB
 from Disc import FileSystem
