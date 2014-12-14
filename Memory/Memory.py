@@ -19,10 +19,13 @@ class Memory(object):
     def free_memory_to_save(self, program_size):
         return self.free_cells >= program_size
 
+    def size(self):
+        return self.size
+
     def delete(self, index):
-        self.records.pop(index)
+        self.records.remove(index)
         self.free_cells += 1
 
     def free_cells(self):
-        return self.free_cells
+        return self.free_cells.numerator
 
