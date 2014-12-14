@@ -10,8 +10,7 @@ class Kernel:
 
     def __init__(self, memory, file_system):
         self.file_system = file_system
-        self.memory = memory
-        self.memory_admin = MemoryAdmin(AsignacionContinua(self.memory))
+        self.memory_admin = MemoryAdmin(AsignacionContinua(memory))
         self.pid = 0
         self.scheduler = Scheduler()
         self.cpu = Cpu(self.memory_admin)

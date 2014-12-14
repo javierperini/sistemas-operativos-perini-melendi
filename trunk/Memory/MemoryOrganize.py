@@ -67,7 +67,7 @@ class AsignacionContinua(MemoryOrganize):
         for i in self.blocks:
             if i.get_used():
                 self.clean_information(i.get_position_initial(), i.get_position_final())
-                self.reassign_block(i.get_pid,i.get_position_initial(), i.get_position_final())
+                self.reassign_block(i.get_pid, i.get_position_initial(), i.get_position_final())
                 delete.append(i)
         self.delete_blocks(delete)
 
