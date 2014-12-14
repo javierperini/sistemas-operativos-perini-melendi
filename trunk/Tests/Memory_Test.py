@@ -20,7 +20,7 @@ class TestsMemoria(unittest.TestCase):
         self.assertEqual("primeraInstruccion", self.memoria.read(0))
 
     def test_deleteMemoria(self):
-        self.memoria.delete(0)
+        self.memoria.delete("primeraInstruccion")
         self.assertEquals(511, self.memoria.free_cells)
 
     def test_size(self):
