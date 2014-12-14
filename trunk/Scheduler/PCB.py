@@ -9,7 +9,7 @@ class PCB:
         self.pc = pc
         self.state = ProcessState(1)
         self.pid = pid
-        self._priority = priority
+        self.priority = priority
 
     def initial_position(self):
         return self.init_position
@@ -33,7 +33,7 @@ class PCB:
         self.state = state_new
 
     def get_priority(self):
-        return self._priority
+        return self.priority
 
-   # def __cmp__(self, another_pcb):
-       # return cmp(self._priority, another_pcb.get_Priority())
+    def __cmp__(self, another_pcb):
+        return self.priority.__cmp__(another_pcb.get_priority())

@@ -19,6 +19,9 @@ class Scheduler:
     def add_pcb(self, pcb):
         self.policy.add_pcb(pcb)
 
+    def get_quantum(self):
+        return self.policy.get_quantum()
+
 
 class FifoScheduler:
     def __init__(self, ready_queue):
@@ -30,23 +33,23 @@ class FifoScheduler:
     def add_pcb(self, pcb):
         self.readyQueue.append(pcb)
 
+    def get_quantum(self):
+        return 0
 
 class PriorityScheduler():
     def __init__(self, ready_queue):
-        self.readyQueue = ready_queue
+        self.readyQueue = []
+        self.aux = ready_queue
 
     def get_pcb(self):
-        return self.readyQueue.pop()
+        return self.readyQueue.pop(0)
 
     def add_pcb(self, pcb):
-        aux = self.readyQueue
-        self.readyQueue = []
-        for i in range(len(aux)-1):
-            if i > pcb.priority() & pcb.priority() < i+1:
-                self.readyQueue.append(aux[i])
-                self.readyQueue.append(pcb)
-            else:
-                self.readyQueue.append(aux[i])
+        self.readyQueue.append(pcb)
+        self.readyQueue.sort()
+
+    def get_quantum(self):
+        return 0
 
 
 class RoundRobinScheduler():
@@ -62,3 +65,4 @@ class RoundRobinScheduler():
 
     def get_quantum(self):
         return self.quantum
+
