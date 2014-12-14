@@ -65,8 +65,9 @@ class AsignacionContinua(MemoryOrganize):
     def compact(self):
         delete = []
         for i in self.blocks:
-            if i.get_used:
-                self.reassign_block(i.get_pid, i.get_position_initial(), i.get_position_final())
+            if i.get_used():
+                self.clean_information(i.get_position_initial(), i.get_position_final())
+                self.reassign_block(i.get_pid,i.get_position_initial(), i.get_position_final())
                 delete.append(i)
         self.delete_blocks(delete)
 
@@ -80,13 +81,18 @@ class AsignacionContinua(MemoryOrganize):
         diferecia_fija = con_final - con_ini
         for i in self.blocks:
             if i.get_pid != pid:
-                pos_final_actual = i.get_position_final
-                pos_inicial_actual = i.get_position_initial
+                pos_final_actual = i.get_position_final()
+                pos_inicial_actual = i.get_position_initial()
                 diferencia_block = pos_final_actual - pos_inicial_actual
                 self.set_position_block(con_final, con_ini, diferecia_fija, diferencia_block, i)
                 self.move_information(i, pos_final_actual, pos_inicial_actual)
+                self.clean_information(pos_inicial_actual, pos_final_actual)
                 con_ini = i.get_position_initial
                 con_final = i.get_position_final
+
+    def clean_information(self, pos_initial, pos_final):
+        for i in range(pos_initial, pos_final):
+            self.memory.delete_index(i)
 
     def set_position_block(self, con_final, con_ini, diferecia_fija, diferencia_block, i):
         if diferencia_block == diferecia_fija:
@@ -102,7 +108,7 @@ class AsignacionContinua(MemoryOrganize):
 
     def move_information(self, block, pos_final, pos_ini):
         count = pos_ini
-        for i in range(block.posicionInicial, block.posicionFinal):
+        for i in range(block. get_position_initial(), block.get_position_final()):
             if count >= pos_final:
                 self.memory.write(self.memory.read(count), i)
                 count += 1

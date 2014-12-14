@@ -5,7 +5,7 @@ class Block:
         self.pid = pid
         self.position_initial = pos_initial
         self.position_final = pos_final
-        self.position_read = pos_initial
+        self.position_read = pos_initial+1
         self.used = False
 
     def get_size(self):

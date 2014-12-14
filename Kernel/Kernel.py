@@ -30,7 +30,7 @@ class Kernel:
         self.scheduler.set_as_fifo()
 
     def create_pcb(self, program, priority):
-        initial_pos = self.memory_admin.next_post()
+        initial_pos = self.memory_admin.next_post_free()
         final_pos = (initial_pos+program.size())
         pcb = PCB(initial_pos, final_pos, 0, self.get_pid(), priority)
         self.pid += 1

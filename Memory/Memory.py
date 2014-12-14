@@ -25,6 +25,11 @@ class Memory(object):
     def delete(self, index):
         self.records.remove(index)
         self.free_cells += 1
+        self.next_position -= 1
+
+    def delete_index(self, index):
+        del self.records[index]
+        self.free_cells += 1
 
     def free_cells(self):
         return self.free_cells.numerator
