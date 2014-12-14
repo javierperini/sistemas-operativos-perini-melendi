@@ -23,6 +23,23 @@ class TestScheduler(unittest.TestCase):
         result = self.scheduler.get_pcb()
         self.assertEqual(self.pcb1, result)
 
+    def test_scheduler_with_priority(self):
+        self.scheduler.set_as_priority()
+        self.scheduler.add_pcb(self.pcb1)
+        self.scheduler.add_pcb(self.pcb2)
+        self.scheduler.add_pcb(self.pcb3)
+        self.scheduler.add_pcb(self.pcb4)
+        result = self.scheduler.get_pcb()
+        self.assertEqual(self.pcb4, result)
+
+    def test_scheduler_with_round_robin(self):
+        self.scheduler.set_as_round_robin(100)
+        self.scheduler.add_pcb(self.pcb1)
+        self.scheduler.add_pcb(self.pcb2)
+        self.scheduler.add_pcb(self.pcb3)
+        self.scheduler.add_pcb(self.pcb4)
+        result = self.scheduler.get_pcb()
+        self.assertEqual(self.pcb1, result)
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestScheduler)
 unittest.TextTestRunner(verbosity=2).run(suite)
