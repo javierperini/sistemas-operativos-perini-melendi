@@ -36,10 +36,10 @@ class FifoScheduler:
     def get_quantum(self):
         return 0
 
+
 class PriorityScheduler():
     def __init__(self, ready_queue):
-        self.readyQueue = []
-        self.aux = ready_queue
+        self.readyQueue = ready_queue
 
     def get_pcb(self):
         return self.readyQueue.pop(0)
