@@ -20,9 +20,11 @@ class TestsMemoria(unittest.TestCase):
         self.assertEqual("primeraInstruccion", self.memoria.read(0))
 
     def test_deleteMemoria(self):
-        self.memoria.delete(1)
-        self.assertEqual(511, self.memoria.free_cells())
+        self.memoria.delete(0)
+        self.assertEquals(511, self.memoria.free_cells)
 
+    def test_size(self):
+        self.assertEqual(512, self.memoria.size)
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestsMemoria)
 unittest.TextTestRunner(verbosity=2).run(suite)

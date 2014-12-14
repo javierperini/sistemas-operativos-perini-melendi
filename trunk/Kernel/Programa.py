@@ -15,6 +15,9 @@ class Programa:
         for instr in self.instrucciones:
             instr.run(self.output)
 
+    def size(self):
+        return len(self.instrucciones)
+
     def getInstrucciones(self):
         return self.instrucciones
 

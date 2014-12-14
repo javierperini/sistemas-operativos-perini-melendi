@@ -10,7 +10,7 @@ class MemoryOrganize(object):
         self.blockTable = BlockTable()
         self.memory = memory
 
-    def has_run_for(self, size):
+    def has_room_for(self, size):
         pass
 
     def save(self, pcb, program):
@@ -36,20 +36,20 @@ class AsignacionContinua(MemoryOrganize):
         super(AsignacionContinua, self).__init__(memory)
         self.blocks = []
 
-    def has_run_for(self, size):
+    def has_room_for(self, size):
         self.compact()
         return self.memory.free_memory_to_save(size)
 
     def save(self, pcb, program):
-        position = self.next_position(pcb)
+        position = self.next_post_free()
         size = program.size()
         block = Block(size, pcb.pid, position, position+size)
         self.save_block(block)
         for instruction in program.getInstrucciones():
-            self.memory.write(self.next_position(pcb), instruction)
+            self.memory.write(self.next_post_free(), instruction)
 
     def next_post_free(self):
-        return self.memory.next_position()
+        return self.memory.next_position
 
     def next_position(self, pcb):
         block = self.get_block(pcb)
@@ -58,11 +58,9 @@ class AsignacionContinua(MemoryOrganize):
 
     def get_block(self, pcb):
         for i in self.blocks:
-            if i.get_pid == pcb:
+            pid = i.get_pid()
+            if pid == pcb.get_pid():
                 return i
-
-    def delete_memory(self, index):
-        self.memory.delete(index)
 
     def compact(self):
         delete = []
@@ -120,16 +118,16 @@ class Paginacion(MemoryOrganize):
     def __init__(self, memory):
         super(Paginacion, self).__init__(memory)
         self.size_marco = 5
-        self.number_Marcos = memory.get_size/self.size_marco
+        self.memory2 = memory.size
+        self.number_Marcos = 512/5
         self.marcos = []
         self.create_marcos()
 
     def create_marcos(self):
-        count = 0
         size_before = 0
-        while self.number_Marcos > count:
+        for i in range(self.number_Marcos):
             pos_final = size_before + self.size_marco
-            marco = Marco(count+1, self.size_marco, size_before, pos_final)
+            marco = Marco(i, self.size_marco, size_before, pos_final)
             self.marcos.append(marco)
             size_before = pos_final + 1
 
@@ -140,8 +138,8 @@ class Paginacion(MemoryOrganize):
         page_current = Page(marco_current)
         for instruction in program.getInstrucciones():
             if page_current.get_size >= count:
-                page_current.add_number_instruction(pcb.getPc())
-                self.memory.write(self.next_position(pcb), instruction)
+                page_current.add_number_instruction(pcb.get_pc())
+                self.memory.write(marco_current.next_free_pos(), instruction)
                 count += 1
             else:
                 count = 0
@@ -149,9 +147,9 @@ class Paginacion(MemoryOrganize):
                 marco_current = self.get_marco_free()
                 page_current = Page(marco_current)
         pages.append(page_current)
-        self.blockTable.put(pcb.getPid(), pages)
+        self.blockTable.put(pcb.get_pid(), pages)
 
-    def has_run_for(self, size):
+    def has_room_for(self, size):
         count = 0
         required_size = size/self.size_marco
         for marco in self.marcos:
@@ -160,10 +158,11 @@ class Paginacion(MemoryOrganize):
         return required_size <= count
 
     def next_position(self, pcb):
-        number_marco = pcb.pid/self.size_marco
-        marco = self.get_marco(number_marco)
-        number_instrution = pcb.getPc % self.size_marco
-        return marco.next_post(number_instrution)
+        if self.blockTable.lookup(pcb.get_pid()):
+            page = self.blockTable.get(pcb.get_pid())[pcb.pid/self.size_marco]
+            marco = page.get_marco()
+            return marco.next_post()
+        return 0
 
     def get_marco(self, number_marco_search):
         for marco in self.marcos:
@@ -176,4 +175,4 @@ class Paginacion(MemoryOrganize):
                 return marco
 
     def next_post_free(self):
-        return self.get_marco_free().get_first_position()
+        return self.get_marco_free().next_free_pos()

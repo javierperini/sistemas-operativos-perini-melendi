@@ -7,4 +7,7 @@ class BlockTable:
         self.dictionary[pid] = block
 
     def get(self, pid):
-       return self.dictionary[pid]
+        return self.dictionary[pid]
+
+    def lookup(self, pid):
+        return  pid in self.dictionary
