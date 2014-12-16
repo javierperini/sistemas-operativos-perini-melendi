@@ -10,7 +10,7 @@ from Disc.Instruccion import Instruccion
 class Init():
 
     def __init__(self):
-        self.clock = Clock(4)
+        self.clock = Clock(2)
         self.clock.start()
         self.program = Programa("a_program_name")
         self.program2 = Programa("another_program_name")

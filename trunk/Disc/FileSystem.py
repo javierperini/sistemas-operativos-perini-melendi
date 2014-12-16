@@ -3,8 +3,10 @@ from Folder import *
 
 class FileSystem:
 
-    def __init__(self):
-        self.root = Folder([], self, '/')
+    def __init__(self, disc):
+        self.disc = disc
+        self.disc.save('/', Folder([], self, '/'))
+        self.root = self.disc.get('/')
 
     def split_path(self, path):
         return path.split("/")
