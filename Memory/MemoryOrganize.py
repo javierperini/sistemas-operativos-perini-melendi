@@ -54,6 +54,8 @@ class AsignacionContinua(MemoryOrganize):
     def next_position(self, pcb):
         block = self.get_block(pcb)
         pcb.sum_pc()
+        if pcb.is_last_position():
+            return 1000
         return block.next_pos()
 
     def get_block(self, pcb):

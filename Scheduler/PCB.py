@@ -35,5 +35,8 @@ class PCB:
     def get_priority(self):
         return self.priority
 
+    def is_last_position(self):
+        return self.pc == self.final_position
+
     def __cmp__(self, another_pcb):
         return self.priority.__cmp__(another_pcb.get_priority())

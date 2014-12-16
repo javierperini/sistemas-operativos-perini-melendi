@@ -6,6 +6,8 @@ class Memory(object):
         self.free_cells = 512
 
     def read(self, position):
+        if position > self.size:
+            return None
         return self.records[position]
 
     def write(self, position, instruction):
