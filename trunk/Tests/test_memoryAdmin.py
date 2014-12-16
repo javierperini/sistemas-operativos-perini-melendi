@@ -29,7 +29,7 @@ class TestMemoryAdmin(unittest.TestCase):
 
     def test_next_post(self):
         self.admin.save(self.pcb, self.progr)
-        self.assertEqual(0, self.admin.next_post(self.pcb))
+        self.assertEqual(1, self.admin.next_post(self.pcb))
 
     def test_read_memory(self):
         self.admin.save(self.pcb, self.progr)
