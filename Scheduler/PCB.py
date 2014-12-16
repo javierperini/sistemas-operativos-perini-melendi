@@ -7,7 +7,7 @@ class PCB:
         self.init_position = init
         self.final_position = fin
         self.pc = pc
-        self.state = ProcessState(1)
+        self.state = ProcessState.new
         self.pid = pid
         self.priority = priority
 
