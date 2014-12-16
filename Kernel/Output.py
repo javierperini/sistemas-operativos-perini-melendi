@@ -13,6 +13,10 @@ class Output:
     def get(self, indice):
         return self.instrucciones[indice]
 
+    def print_all(self):
+        for instr in self.instrucciones:
+            print instr
+
 
 class TestsOutput(unittest.TestCase):
 
