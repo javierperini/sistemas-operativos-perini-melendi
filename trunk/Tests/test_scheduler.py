@@ -11,7 +11,6 @@ class TestScheduler(unittest.TestCase):
         self.pcb3 = PCB(20, 30, 15, 45, 5)
         self.pcb4 = PCB(46, 49, 5, 6, 1)
 
-        #self.ready_queue = []
         self.scheduler = Scheduler()
 
     def test_scheduler_with_fifo(self):

@@ -1,7 +1,4 @@
-__author__ = 'memonono'
-
-import unittest
-from Cpu.Cpu import *
+from Cpu.Cpu import Cpu
 from Kernel.Kernel import Kernel
 from Kernel.Programa import Programa
 from Memory.Memory import Memory
@@ -10,9 +7,9 @@ from Cpu.Clock import Clock
 from Disc.Instruccion import Instruccion
 
 
-class TestsCpu(unittest.TestCase):
+class Init():
 
-    def setUp(self):
+    def __init__(self):
         self.clock = Clock(4)
         self.clock.start()
         self.program = Programa("a_program_name")
@@ -60,11 +57,9 @@ class TestsCpu(unittest.TestCase):
         self.kernel.create_pcb(self.program4, 3)
         self.cpu = Cpu(self.kernel)
 
-    def test_cpu_run_instruction(self):
+    def main(self):
         self.cpu.run()
-        self.assertTrue(self.cpu.output.contains("Instruccion 1"))
 
-
-suite = unittest.TestLoader().loadTestsFromTestCase(TestsCpu)
-unittest.TextTestRunner(verbosity=2).run(suite)
+if __name__ == '__main__':
+    Init().main()
 
