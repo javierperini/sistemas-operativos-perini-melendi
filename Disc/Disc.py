@@ -3,16 +3,18 @@ from FileSystem import FileSystem
 
 class Disc:
     def __init__(self):
-        self.file_system = FileSystem()
+        self.records = []
 
     def save(self, path, _file):
-        self.file_system.save(path, _file)
+        self.records.append((path, _file))
 
     def get(self, path):
-        return self.file_system.cd(path)
+        return filter(lambda (p, r): p.__comp__(path), self.records).__getitem__(0)
 
     def used_disc(self):
-        return self.file_system.size()
-
+        used = 0
+        for (path, record) in self.records:
+            used += record.size()
+        return used
 
 

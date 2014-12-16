@@ -5,12 +5,13 @@ from Scheduler.Scheduler import Scheduler
 from Cpu.Cpu import Cpu
 from Scheduler.PCB import PCB
 from Cpu.Alert import TimeoutAlert
+from Disc.Disc import Disc
 
 
 class Kernel:
 
     def __init__(self, memory, file_system, clock):
-        self.file_system = file_system
+        self.file_system = file_system(Disc())
         self.memory_admin = MemoryAdmin(AsignacionContinua(memory))
         self.pid = 0
         self.scheduler = Scheduler()
