@@ -31,13 +31,17 @@ class Kernel:
         self.scheduler.set_as_fifo()
 
     def create_pcb(self, program, priority):
-        initial_pos = self.memory_admin.next_post_free()
-        final_pos = (initial_pos+program.size())
-        pcb = PCB(initial_pos, final_pos, 0, self.get_pid(), priority)
-        self.pid += 1
-        self.scheduler.add_pcb(pcb)
-        self.memory_admin.save(pcb, program)
-        return pcb              #Esto no me gusta, pero es lo que hay por el momento
+        if self.memory_admin.has_room_for(program.size()):
+            initial_pos = self.memory_admin.next_post_free()
+            final_pos = (initial_pos+program.size())
+            pcb = PCB(initial_pos, final_pos, 0, self.get_pid(), priority)
+            self.pid += 1
+            self.pcb_table.add(pcb)
+            self.scheduler.add_pcb(pcb)
+            self.memory_admin.save(pcb, program)
+
+        else:
+            print("No hay lugar para esto")
 
     def get_program(self, program_name, path):
         return self.file_system.find(path, program_name)
@@ -58,14 +62,9 @@ class Kernel:
 
     def execute(self, program_name, path, priority):
         program = self.get_program(program_name, path)
-        if self.memory_admin.has_room_for(program.size):
-            pcb = self.create_pcb(program, priority)
-            self.pcb_table.add(pcb)
-            self.memory_admin.save(pcb, program)
-            self.scheduler.add_pcb(pcb)
-            self.scheduler.get_pcb()
-        else:
-            raise Exception("No hay lugar en la memoria para ejecutar")
+        self.create_pcb(program, priority)
+        self.scheduler.get_pcb()
+
 
 
 

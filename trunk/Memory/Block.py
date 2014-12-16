@@ -5,7 +5,7 @@ class Block:
         self.pid = pid
         self.position_initial = pos_initial
         self.position_final = pos_final
-        self.position_read = pos_initial+1
+        self.position_read = pos_initial
         self.used = False
 
     def get_size(self):
@@ -17,9 +17,11 @@ class Block:
     def next_pos(self):
         position = self.position_read
         self.position_read += 1
-        if position == self.get_position_final():
-            self.used = True
+        self.is_full()
         return position
+
+    def is_full(self):
+        self.used = self.position_read == self.get_position_final()
 
     def get_pid(self):
         return self.pid

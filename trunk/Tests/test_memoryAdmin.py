@@ -12,7 +12,7 @@ class TestMemoryAdmin(unittest.TestCase):
         self.memory = Memory()
         self.strategy = AsignacionContinua(self.memory)
         self.admin = MemoryAdmin(self.strategy)
-        self.pcb = PCB(3, 5, 20, 40, 4)
+        self.pcb = PCB(3, 4, 20, 40, 4)
         self.progr = Programa("un_programa")
         self.instr = Instruccion('Instruccion 1')
         self.progr.agregarInstruccion(self.instr)
@@ -29,7 +29,7 @@ class TestMemoryAdmin(unittest.TestCase):
 
     def test_next_post(self):
         self.admin.save(self.pcb, self.progr)
-        self.assertEqual(1, self.admin.next_post(self.pcb))
+        self.assertEqual(0, self.admin.next_post(self.pcb))
 
     def test_read_memory(self):
         self.admin.save(self.pcb, self.progr)

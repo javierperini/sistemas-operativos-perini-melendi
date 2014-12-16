@@ -12,7 +12,7 @@ class TestMemoryOrganize(unittest.TestCase):
         self.memory = Memory()
         self.asignacion_continua = AsignacionContinua(self.memory)
         self.paginacion = Paginacion(self.memory)
-        self.pcb = PCB(2, 4, 6, 40, 4)
+        self.pcb = PCB(2, 3, 6, 40, 4)
 
         self.progr = Programa("un_programa")
         self.instr = Instruccion('Instruccion 1')
@@ -28,7 +28,7 @@ class TestMemoryOrganize(unittest.TestCase):
     def test_next_position_asignacion_continua(self):
         self.asignacion_continua.save(self.pcb, self.progr)
         result = self.asignacion_continua.next_position(self.pcb)
-        self.assertEqual(1, result)
+        self.assertEqual(0, result)
 
     def test_next_post_free_asignacion_continua(self):
         self.assertEqual(0, self.asignacion_continua.next_post_free())
