@@ -22,7 +22,7 @@ class MemoryAdmin:
         return self.strategy.get_next_instruction(pcb)
 
     def free(self, pcb):
-        self.delete_memory(pcb)
+        self.strategy.delete_memory_pcb(pcb)
 
     def delete_memory(self, program):
         self.strategy.delete_memory(program)

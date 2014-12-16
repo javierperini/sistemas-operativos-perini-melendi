@@ -25,6 +25,10 @@ class MemoryOrganize(object):
     def get_next_instruction(self, pcb):
         return self.memory.read(self.next_position(pcb))
 
+    def delete_memory_pcb(self, pcb):
+        for i in range(pcb.initial_position(), pcb.final_position()):
+            self.memory.delete(i)
+
     def delete_memory(self, program):
         for i in program.getInstrucciones():
             self.memory.delete(i)
