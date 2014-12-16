@@ -5,6 +5,7 @@ from Memory.Memory import Memory
 from Disc.FileSystem import FileSystem
 from Cpu.Clock import Clock
 from Disc.Instruccion import Instruccion
+from Disc.Disc import Disc
 
 
 class Init():
@@ -12,6 +13,7 @@ class Init():
     def __init__(self):
         self.clock = Clock(2)
         self.clock.start()
+        self.disc = Disc()
         self.program = Programa("a_program_name")
         self.program2 = Programa("another_program_name")
         self.program3 = Programa("yes_another_program_name")
@@ -49,7 +51,7 @@ class Init():
         self.program4.agregarInstruccion(self.instruction12)
 
         self.memory = Memory()
-        self.kernel = Kernel(self.memory, FileSystem(), self.clock)
+        self.kernel = Kernel(self.memory, FileSystem(self.disc), self.clock)
         self.kernel.set_scheduler_policy()
         self.kernel.create_pcb(self.program, 0)
         self.kernel.create_pcb(self.program2, 1)
