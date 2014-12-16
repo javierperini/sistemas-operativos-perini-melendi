@@ -48,17 +48,10 @@ class PriorityScheduler():
         self.readyQueue = ready_queue
 
     def get_pcb(self):
-        return self.readyQueue.pop()
+        return min(self.readyQueue)
 
     def add_pcb(self, pcb):
-        aux = self.readyQueue
-        self.readyQueue = []
-        for i in range(len(aux)-1):
-            if i > pcb.priority() & pcb.priority() < i+1:
-                self.readyQueue.append(aux[i])
-                self.readyQueue.append(pcb)
-            else:
-                self.readyQueue.append(aux[i])
+        self.readyQueue.append(pcb)
 
     def get_quantum(self):
         return 1
